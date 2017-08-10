@@ -1,0 +1,22 @@
+{
+  "name": "ABB_Press",
+  "version": "1.0.0",
+  "description": "ABB sales for web sockets",
+  "main": "server.js",
+  "scripts": {
+    "start" : "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ABB",
+    "sockets",
+    "nodejs"
+  ],
+  "author": "Toni Vinuales",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.13.3",
+    "socket.io": "1.3.7",
+    "mongoose": "4.8.6"
+  }
+}

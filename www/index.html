@@ -1,0 +1,3898 @@
+<!doctype html>
+<html>
+<head>
+   <!--<meta charset="utf-8">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=11;IE=9;IE=8;IE=7;IE=EDGE"/>
+  <title>ABB ROBOTICS 3D_CONFIGURATOR</title>
+   <style>
+      html, body {
+         overflow: hidden;
+         width: 100%;
+         height: 100%;
+         margin: 0;
+         padding: 0;
+      }
+      #renderCanvas {
+         width: 100%;
+         height: auto;
+         touch-action: none;
+      }
+	  .navbar-inverse
+			{
+			border-bottom-color: transparent !important; /* !important added for SO snippet, avoid it */
+			height:42px !important;
+			 margin-bottom: 0!important;
+			 border: 0px;
+			}
+			.navbar-brand img {
+			width:120px;
+			height:35px;
+			display:inline-block;
+			margin-top:-15px;
+			}
+			#border{
+			  max-width:100%; 
+              }	
+			  			.panel-footer {
+  height: 50px !important;
+}
+			.panel panel-heading {
+  height: 50px !important;
+}
+		.boxes{
+  background: #060; /* border color */
+    max-width: 96%;
+    padding: 4%; /* equals 100% when doubled and added to the max-width */
+
+}
+		.boxes2{
+  background: #800; /* border color */
+    max-width: 100%;
+    padding: 0%; /* equals 100% when doubled and added to the max-width */
+}
+		.boxes3{
+  background: #800; /* border color */
+    max-width: 96%;
+    padding: 4%; /* equals 100% when doubled and added to the max-width */
+
+}
+ul.nav{margin-bottom:0!important;}
+   </style>
+   		<!--Jquery&Bootsrap&Choosen-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+		<script src="lib/hand.minified-1.2.js"></script>
+    	<script src="lib/Oimo.js"></script>
+		<script src="lib/babylon.js"></script>
+		<script src="lib/cannon.js"></script>
+							<!--socketio-->
+        <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div class=wrap>
+<nav class="navbar-inverse fixed-top ">
+  <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="./images/abb4.png"class="img-responsive"></a>
+			  <div class="navbar fixed-top" >
+			  <h4><span class="label label-default" id="navbarText">3D CONFIGURATOR</span></h4>
+              </div>	
+              </div>  
+</nav>
+<!--MODAL PREVIOUS-->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModalpassword" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <h4 class="modal-title">AUTHENTICATION</h4>
+        </div>
+        <div class="modal-body">
+				<div class="tab-pane active" id="PASSWORD">					
+							<div class="form-group">
+								<p></p>
+							    <p></p>
+									<p></p>
+							    <p></p>
+									<p></p>
+							    <p></p>
+								<label for="recipient-name" class="form-control-label">PASSWORD</label>
+									<p></p>
+							    <p></p>
+								<input type="text" class="form-control" id="idPassword">
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" id="idValidate">VALIDATE</button>
+										<button type="button" class="btn btn-primary"data-dismiss="modal" id="idEnter">ENTER</button>
+									</div>
+				</div> 
+			</div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+<!--MODAL-->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <h4 class="modal-title">ABB ROBOTICS 3D CONFIGURATOR</h4>
+        </div>
+        <div class="modal-body">
+			<div>
+		      <ul class="nav nav-tabs"id="tabContent">
+				<!--<li class="active"><a href="#USERNAME" data-toggle="tab">USERNAME</a></li>-->
+				<li class="active"><a href="#CREATEPROJECT" data-toggle="tab">NEW PROJECT</a></li>
+				<li><a href="#LOADPROJECT" data-toggle="tab">LOAD PROJECT</a></li>
+				<li id="savetab_button"><a href="#SAVEPROJECT" data-toggle="tab" id="savetab_button">SAVE PROJECT</a></li>
+			  </ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane " id="USERNAME">
+				<p></p>
+				      <div class="form-group">
+						<label for="recipient-name" class="form-control-label">ABB USERNAME</label>
+						<p></p>
+						<input type="text" class="form-control" id="idUsername">
+					  </div>
+				</div>
+				<div class="tab-pane active" id="CREATEPROJECT">
+								<p></p>
+							    <p></p>
+							<div class="form-group">
+								<label for="recipient-name" class="form-control-label">BUSINESS UNIT</label>
+								<div class="input-group">
+									<select class="form-control chosen-select" style="width:350px;" tabindex="2" id="idBusinessunitcreate">
+									   <option value="" selected disabled>Please select</option>
+										<option value="FLEXSPOT" >
+										FLEXSPOT
+										</option>
+										<option value="PAS">
+										PAS
+										</option>
+									</select>
+								</div>	
+							</div>						
+							<div class="form-group">
+								<label for="recipient-name" class="form-control-label">PROJECT NAME</label>
+								<input type="text" class="form-control" id="idProjectnamecreate">
+							</div>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="idCreate">CREATE</button>
+				</div> 
+				<div class="tab-pane" id="SAVEPROJECT">
+								<p></p>
+							    <p></p>
+							<div class="form-group">
+								<label for="recipient-name" class="form-control-label">PROJECT NAME</label>
+								<input type="text" class="form-control" id="idProjectnamenew">
+							</div>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="idSave">SAVE</button>
+				</div> 
+				<div class="tab-pane" id="LOADPROJECT">
+								<p></p>
+								<p></p>
+							<div class="form-group">
+								<label for="recipient-name" class="form-control-label">BUSINESS UNIT</label>						
+							<button type="button" class="btn btn-default"id="idBusinessunitloadFlexSpot">FLEXSPOT</button>
+							<!--<button type="button" class="btn btn-default"id="idBusinessunitloadPAS">PAS</button> -->
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="form-control-label">PROJECT NAME</label>
+								<div class="input-group">
+								<select class="form-control chosen-select" style="width:350px;" id="idProjectnameload">
+									</select>
+								</div>	
+							</div>
+							<button type="button" class="btn btn-default"data-dismiss="modal"id="idLoad">LOAD</button>
+				</div> 
+			</div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+<!-- FLEX SPOT -->
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12" >
+	    <ul class="nav nav-tabs " id="myTabFlexSpot">
+		  <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">CELL<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="0">
+                     <a id="varianttab" href="#tab1" data-toggle="tab">VARIANT</a>
+               </li>
+                <li class="" data-target="#myCarousel" >
+                     <a id="robotstab" href="#tab2" data-toggle="tab">ROBOTS</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="2">
+                     <a id="robotsopttab" href="#tab3" data-toggle="tab">ROBOT OPTION</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="3">
+                     <a id="plctab" href="#tab4" data-toggle="tab">PLC</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="4">
+                     <a id="turntabletab" href="#tab5" data-toggle="tab">TURN TABLE</a>
+               </li>
+			   	<li class="" data-target="#myCarousel" data-slide-to="5">
+                     <a id="turntableopttab" href="#tab6" data-toggle="tab">TURN TABLE OPTIONS</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="6">
+                     <a id="safetyopttab" href="#tab7" data-toggle="tab">SAFETY OPTIONS</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="7">
+                     <a id="fencingopttab" href="#tab8" data-toggle="tab">FENCING OPTIONS</a>
+               </li>
+            </ul>
+         </li>
+		  <li class="dropdown"> <a id="spotweldingtab" href="#" class="dropdown-toggle" data-toggle="dropdown">SPOTWELDING<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="8">
+                     <a  id="gunonrobottab" href="#tab9" data-toggle="tab">GUN ON ROBOT </a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="9">
+                     <a  id="mhtab" href="#tab10" data-toggle="tab">MATERIAL HANDLING</a>
+               </li>
+			   <li class="" data-target="#myCarousel" >
+                     <a  id="swguntab" href="#tab11" data-toggle="tab">SPOT WELDING GUN</a>
+               </li>
+			   <li class="" data-target="#myCarousel">
+                     <a id="swguncabinettab" href="#tab12" data-toggle="tab">SPOT WELDING CABINET</a>
+               </li>
+			   	<li class="" data-target="#myCarousel" data-slide-to="12">
+                     <a id="swtipdressertab" href="#tab13" data-toggle="tab">TIP DRESSER</a>
+               </li>
+			   	<li class="" data-target="#myCarousel" data-slide-to="13">
+                     <a id="tipopttab" href="#tab14" data-toggle="tab">AIRWATER OPTIONS</a>
+               </li>
+            </ul>
+         </li>
+		  <li class="dropdown"> <a id="suppliestab" href="#" class="dropdown-toggle" data-toggle="dropdown">SUPPLIES<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="14">
+                     <a id="supliestab" href="#tab15" data-toggle="tab">MARKER MACHINE</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="15">
+                     <a  id="otherstab" href="#tab16" data-toggle="tab">OTHERS</a>
+               </li>
+            </ul>
+         </li>
+		  <li class="" data-target="#myCarousel" data-slide-to="16">
+             <a  id="softwaretab" href="#tab17" data-toggle="tab">SOFTWARE</a>
+          </li>
+		  <li class="" data-target="#myCarousel" data-slide-to="17">
+             <a id="servicestab" href="#tab18" data-toggle="tab">SERVICES</a>
+          </li>
+       </ul>
+</div>
+</div>
+</div>
+ <!-- PRESS AUTOMATION SYSTEMS -->
+<div class="container">
+  <div class="row">
+<div class="col-xs-12">
+	    <ul class="nav nav-tabs" id="myTabPAS">
+		  <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">DESTACKER<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="21">
+                     <a href="#tab22" data-toggle="tab">HIGHSPEED</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="22">
+                     <a href="#tab23" data-toggle="tab">FASTSPEED</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="23">
+                     <a href="#tab24" data-toggle="tab">MEDIUMSPEED</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="24">
+                     <a href="#tab25" data-toggle="tab">BLANK SURFACE TREATMENT</a>
+               </li>
+            </ul>
+         </li>
+		  <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">LOADER<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="25">
+                     <a href="#tab26" data-toggle="tab">HIGHSPEED</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="26">
+                     <a href="#tab27" data-toggle="tab">FASTSPEED</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="27">
+                     <a href="#tab28" data-toggle="tab">MEDIUMSPEED</a>
+               </li>
+			   <!-- <li class="" data-target="#myCarousel" data-slide-to="28">
+                     <a href="#tab29" data-toggle="tab">DIRECT LOADING</a>
+               </li>-->
+            </ul>
+         </li>
+		  <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">ITP<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="29">
+                     <a href="#tab30" data-toggle="tab">HIGHSPEED</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="30">
+                     <a href="#tab31" data-toggle="tab">FASTSPEED</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="31">
+                     <a href="#tab32" data-toggle="tab">MEDIUMSPEED</a>
+               </li>
+            </ul>
+         </li>
+         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">UNLOADER <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="32">
+                     <a href="#tab33" data-toggle="tab">HIGHSPEED</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="33">
+                     <a href="#tab34" data-toggle="tab">FASTSPEED</a>
+               </li>
+			   <!--<li class="" data-target="#myCarousel" data-slide-to="34">
+                     <a href="#tab35" data-toggle="tab">MEDIUMSPEED</a>-->
+               </li>
+            </ul>
+         </li>
+		   <!--<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">RACKING<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="" data-target="#myCarousel" data-slide-to="35">
+                     <a href="#tab36" data-toggle="tab">HIGHSPEED</a>
+               </li>
+                <li class="" data-target="#myCarousel" data-slide-to="36">
+                     <a href="#tab37" data-toggle="tab">FASTSPEED</a>
+               </li>
+			   <li class="" data-target="#myCarousel" data-slide-to="37">
+                     <a href="#tab38" data-toggle="tab">CUSTOM SOLUTION</a>
+               </li>
+            </ul>
+         </li>-->
+       </ul>
+</div>
+</div>
+</div>
+<!-- CAROUSEL -->
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+       <div id="myCarousel" class="carousel slide" data-interval="false" data-ride="carousel">
+		<div class="carousel-inner">
+		<div class="item active">
+		<div class="row">
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_PLATSINGLE.png"  class="img-responsive" role = "button" id="FS_PLATSINGLE2">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_PLATDUAL.png" class="img-responsive" role = "button" id="FS_PLATDUAL">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_PLATTRIPLE.png"  class="img-responsive" role = "button" id="FS_PLATTRIPLE">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_PLATTRIPLE2.png"  class="img-responsive" role = "button" id="FS_PLATTRIPLE2">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_SW.png" class="img-responsive" role = "button" id="FS_SW">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_IRB6700200.png"  class="img-responsive" role = "button" id="FS_IRB6700200">
+			</div>
+			<div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_IRB6700205.png"  class="img-responsive" role = "button" id="FS_IRB6700205">
+			</div>
+			<div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_IRB6620150.png"  class="img-responsive" role = "button" id="FS_IRB6620150">
+			</div>
+			<div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_IRB6700235.png"  class="img-responsive" role = "button" id="FS_IRB6700235">
+			</div>
+		    <div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+		  </div>
+        </div>
+		<div class="item">
+		<div class="row">
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/FS_MULTIMOVE.png"  class="img-responsive" role = "button" id="FS_MULTIMOVE">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/FLEXSPOT/FS_ROBOTOPT_MH.png"  class="img-responsive" role = "button" id="FS_ROBOTOPT_MH">
+            </div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/FS_LEANID.png"  class="img-responsive" role = "button" id="FS_LEANID">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/FS_LEANIDDUAL.png"  class="img-responsive" role = "button" id="FS_LEANIDDUAL">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_FPRETRACTABLECABLE.png"  class="img-responsive" role = "button" id="FS_FPRETRACTABLECABLE">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_FPRETRACTABLECABLEDUAL.png"  class="img-responsive" role = "button" id="FS_FPRETRACTABLECABLEDUAL">
+			</div>
+		</div>
+		</div>
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+	                <img src="./images/FLEXSPOT/FS_PLCABB.png"  class="img-responsive" role = "button" id="FS_PLCABB">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/FS_PLCSIEMENS.png"  class="img-responsive" role = "button" id="FS_PLCSIEMENS">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+          </div>
+		  </div>
+		  </div>
+        <div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+	                <img src="./images/FLEXSPOT/FS_2POSITIONS.png"  class="img-responsive" role = "button" id="FS_2POSITIONS">
+			</div>
+			<div class="col-xs-2">
+               <img src="./images/FLEXSPOT/FS_TURNTABLER1000.png"  class="img-responsive" role = "button" id="FS_TURNTABLER1000">				
+			</div>
+			<div class="col-xs-2">
+               <img src="./images/FLEXSPOT/FS_TURNTABLER750.png"  class="img-responsive" role = "button" id="FS_TURNTABLER750">	
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		  </div>
+        <div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+                        <img src="./images/FLEXSPOT/FS_TTOPTSERVO.png"  class="img-responsive" role = "button" id="FS_TTOPTSERVO">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/FLEXSPOT/FS_TTOPTHIGHSPEED.png"  class="img-responsive" role = "button" id="FS_TTOPTHIGHSPEED">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/FLEXSPOT/FS_TTOPTMAKROLON.png"  class="img-responsive" role = "button" id="FS_TTOPTMAKROLON">
+			</div>
+			<div class="col-xs-2">
+                        <img src="./images/FLEXSPOT/FS_TTOPTJIGS.png"  class="img-responsive" role = "button" id="FS_TTOPTJIGS">
+			</div>
+			<div class="col-xs-2">
+                      <img src="./images/FLEXSPOT/FS_TTOPTHARTING.png"  class="img-responsive" role = "button" id="FS_TTOPTHARTING">
+			</div>
+			<div class="col-xs-2">
+                    <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		  </div>
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+                    <img src="./images/FLEXSPOT/FS_SAFETY.png"  class="img-responsive" role = "button" id="FS_SAFETY">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_ALBANY.png" class="img-responsive" role = "button" id="FS_ALBANY">
+			</div>
+			<div class="col-xs-2">
+                       <img src="./images/FLEXSPOT/FS_SICK.png"  class="img-responsive" role = "button" id="FS_SICK">
+			</div>
+			<div class="col-xs-2">
+                     <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+          </div>
+		  </div>
+		  </div>
+		<div class="item">
+		 <div class="row">
+            <div class="col-xs-2">
+                <img src="./images/FLEXSPOT/FS_STDFENCING.png" class="img-responsive" role = "button" id="FS_STDFENCING">
+			</div>
+            <div class="col-xs-2">
+                <img src="./images/FLEXSPOT/FS_STDFENCINGDUAL.png" class="img-responsive" role = "button" id="FS_STDFENCINGDUAL">
+			</div>
+			<!--<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/FS_STDFENCINGTRIPLE.png" class="img-responsive" role = "button" id="FS_STDFENCINGTRIPLE">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/FS_STDFENCINGTRIPLEDUAL.png" class="img-responsive" role = "button" id="FS_STDFENCINGTRIPLE2">
+			</div>-->
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+		 </div>
+		 </div>
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SW_LEONILSH.png" class="img-responsive" role ="button" id="FS_SW_LEONILSH">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SW_BECKERROBOTROCNV48.png" class="img-responsive" role ="button" id="FS_SW_BECKERROBOTROCNV48">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SW_LEONILSHDUAL.png" class="img-responsive" role ="button" id="FS_SW_LEONILSHDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SW_BECKERROBOTROCNV48DUAL.png" class="img-responsive" role ="button" id="FS_SW_BECKERROBOTROCNV48DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_MH_LEONILSH.png" class="img-responsive" role ="button" id="FS_MH_LEONILSH">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_MH_BECKERROBOTROCNV48.png" class="img-responsive"role ="button" id="FS_MH_BECKERROBOTROCNV48">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_ARO_C.png"  class="img-responsive" role = "button" id="FS_AROCTYPE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_ARO_X.png"  class="img-responsive" role = "button" id="FS_AROXTYPE">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/FS_ARO_BACK.png"  class="img-responsive" role = "button" id="FS_AROBACK">
+			</div>
+			<div class="col-xs-2">
+	                <img src="./images/FLEXSPOT/FS_ARO_TOP.png"  class="img-responsive" role = "button" id="FS_AROTOP">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+		</div>
+		</div> 
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_BOSCHPST6100(AC).png" class="img-responsive" role ="button" id="FS_BOSCHPST6100(AC)">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_BOSCHPST6100(MF).png" class="img-responsive" role ="button" id="FS_BOSCHPST6100(MF)">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_PSQBOSCH_ADAPTIVEUIR.png" class="img-responsive" role ="button" id="FS_PSQBOSCH_ADAPTIVEUIR">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SERRATRON100(AC).png" class="img-responsive" role ="button" id="FS_SERRATRON100(AC)">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SERRATRONMFC-3007CN(MF).png" class="img-responsive" role ="button" id="FS_SERRATRONMFC-3007CN(MF)">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SERRA_WISE.png" class="img-responsive" role ="button" id="FS_SERRA_WISE">
+			</div>
+          </div>
+		 </div> 
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_TIPDRESSERSINGLE.png" class="img-responsive" role ="button" id="FS_TIPDRESSER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_TIPDRESSERDUAL.png" class="img-responsive" role ="button" id="FS_TIPDRESSERDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_AUTOMATICCHNAGER.png" class="img-responsive" role ="button" id="FS_AUTOMATICCHNAGER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_AUTOMATICCHNAGERDUAL.png" class="img-responsive" role ="button" id="FS_AUTOMATICCHNAGERDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_TIPDRESSERSHARED.png" class="img-responsive" role ="button" id="FS_TIPDRESSERSHARED">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_STATICGUN.png" class="img-responsive" role ="button" id="FS_STATICGUN">
+			</div>
+          </div>
+		 </div>	 
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SUCTIONPUMP.png" class="img-responsive" role ="button" id="FS_SUCTIONPUMP">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>		 	
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_COUTHSCRACHT.png" class="img-responsive" role ="button" id="FS_COUTHSCRACHT">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_CONTROLMC2000T2.png" class="img-responsive" role ="button" id="FS_CONTROLMC2000T2">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>			 
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_ONECONECTION.png" class="img-responsive" role ="button" id="FS_ONECONECTION">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_WATERCHILLER.png" class="img-responsive" role ="button" id="FS_WATERCHILLER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SHELFESPERPARTS.png" class="img-responsive" role ="button" id="FS_SHELFESPERPARTS">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_EXTRACTINGCONVEYOR.png" class="img-responsive" role ="button" id="FS_EXTARCTINGCONVEYOR">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>	
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+				  <img src="./images/FLEXSPOT/FS_JIGWIZARDNOTEDIT.png"  class="img-responsive" role = "button" id="FS_JIGWIZARDNOTEDIT">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_JIGWIZARDEDIT.png" class="img-responsive" role ="button" id="FS_JIGWIZARDEDIT">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_BOSCHINTERFACE.png" class="img-responsive" role ="button" id="FS_BOSCHINTERFACE">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div>	
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_CUSTOMERSIMULATION.png" class="img-responsive" role ="button" id="FS_CUSTOMERSIMULATION">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_PARTSIMULATION.png" class="img-responsive" role ="button" id="FS_PARTSIMULATION">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_ONCUSTOMERSITE.png" class="img-responsive" role ="button" id="FS_ONCUSTOMERSITE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_DOCUMENTATION.png" class="img-responsive" role ="button" id="FS_DOCUMENTATION">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_STANDARDTRUCK.png" class="img-responsive" role ="button" id="FS_STANDARDTRUCK">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_TRUCKCRANE.png" class="img-responsive" role ="button" id="FS_TRUCKCRANE">
+			</div>
+          </div>
+		 </div>	
+	 	       <!-- extra carousel 
+			   ROBOTS DUAL -->
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_IRB6700200DUAL.png"  class="img-responsive" role = "button" id="FS_IRB6700200DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_IRB6700205DUAL.png"  class="img-responsive" role = "button" id="FS_IRB6700205DUAL">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/FS_IRB6620150DUAL.png"  class="img-responsive" role = "button" id="FS_IRB6620150DUAL">
+			</div>
+			<div class="col-xs-2">
+	                <img src="./images/FLEXSPOT/FS_IRB6700235.png"  class="img-responsive" role = "button" id="FS_IRB6700235DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+		</div>
+		</div>	   
+		<!--SW GUNDUAL-->
+		<div class="item">
+		<div class="row">
+            <div class="col-xs-2">
+			<img src="./images/FLEXSPOT/FS_ARO_CDUAL.png"  class="img-responsive" role = "button" id="FS_AROCTYPEDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_ARO_XDUAL.png"  class="img-responsive" role = "button" id="FS_AROXTYPEDUAL">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/FLEXSPOT/FS_ARO_BACKDUAL.png"  class="img-responsive" role = "button" id="FS_AROBACKDUAL">
+			</div>
+			<div class="col-xs-2">
+	                <img src="./images/FLEXSPOT/FS_ARO_TOPDUAL.png"  class="img-responsive" role = "button" id="FS_AROTOPDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/empty.png" class="img-responsive">
+			</div>
+		</div>
+		</div> 	
+		<!--SW CABINETDUAL-->
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_BOSCHPST6100(AC)DUAL.png" class="img-responsive" role ="button" id="FS_BOSCHPST6100(AC)DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_BOSCHPST6100(MF)DUAL.png" class="img-responsive" role ="button" id="FS_BOSCHPST6100(MF)DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_PSQBOSCH_ADAPTIVEUIRDUAL.png" class="img-responsive" role ="button" id="FS_PSQBOSCH_ADAPTIVEUIRDUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SERRATRON100(AC)DUAL.png" class="img-responsive" role ="button" id="FS_SERRATRON100(AC)DUAL">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/FLEXSPOT/FS_SERRATRONMFC-3007CN(MF)DUAL.png" class="img-responsive" role ="button" id="FS_SERRATRONMFC-3007CN(MF)DUAL">
+			</div>
+			<div class="col-xs-2">
+				<img src="./images/FLEXSPOT/FS_SERRA_WISEDUAL.png" class="img-responsive" role ="button" id="FS_SERRA_WISEDUAL">
+			</div>
+          </div>
+		 </div> 
+		 		<!--SW PRESS-->
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/7600FXBUFFER.png" class="img-responsive" role ="button" id="FOLHIGHSPEEDLARGEBUFFER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/6660FXBUFFER.png" class="img-responsive" role ="button" id="FOLHIGHSPEEDMEDIUMBUFFER">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive" >
+			</div>
+          </div>
+		 </div>
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/7600FX.png" class="img-responsive" role ="button" id="FOLFASTSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/6660FX.png" class="img-responsive" role ="button" id="FOLFASTSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/IRB760FOL.png" class="img-responsive" role ="button" id="FOLMEDIUMSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/ITP6660.png" class="img-responsive" role ="button" id="FOLMEDIUMSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                  <img src="./images/PAS/BRUSHER.png" class="img-responsive" role ="button" id="BRUSHER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/WASHER.png" class="img-responsive" role ="button" id="WASHER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/OILER.png" class="img-responsive" role ="button" id="OILER">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 			
+		<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/IRB760DOUBLE.png" class="img-responsive" role ="button" id="LOADERFASTSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/IRB6600DOUBLE.png" class="img-responsive" role ="button" id="LOADERFASTSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+          </div>
+		 </div> 		
+				<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/LOADERIRB7600FX.png" class="img-responsive" role ="button" id="LOADERHIGHSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/LOADERIRB6660FX.png" class="img-responsive" role ="button" id="LOADERHIGHSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/ITP6650SHELF.png" class="img-responsive" role ="button" id="LOADERMEDIUMSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/ITP6660.png" class="img-responsive" role ="button" id="LOADERMEDIUMSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty5.png" class="img-responsive" role ="button" id="LOADERDIRECT6660">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty5.png" class="img-responsive" role ="button" id="LOADERDIRECT6660FX">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty5.png" class="img-responsive" role ="button" id="LOADERDIRECT7600FX">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty5.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty5.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty5.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/TRX.png" class="img-responsive" role ="button" id="ITPHIGHSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/LOADERIRB7600FX.png" class="img-responsive" role ="button" id="ITPFASTSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/LOADERIRB6660FX.png" class="img-responsive" role ="button" id="ITPFASTSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/ITP6650SHELF.png" class="img-responsive" role ="button" id="ITPMEDIUMSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/ITP6660.png" class="img-responsive" role ="button" id="ITPMEDIUMSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/IRB760DOUBLE.png" class="img-responsive" role ="button" id="UNLOADERHIGHSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/IRB6600DOUBLE.png" class="img-responsive" role ="button" id="UNLOADERHIGHSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/LOADERIRB7600FX.png" class="img-responsive" role ="button" id="UNLOADERFASTSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/LOADERIRB6660FX.png" class="img-responsive" role ="button" id="UNLOADERFASTSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty.png" class="img-responsive">
+			</div>		
+              </div>
+            </div> 
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty12.png" class="img-responsive">
+			</div>		
+              </div>
+            </div>
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty13.png" class="img-responsive" role ="button" id="RACKINGHIGHSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty13.png" class="img-responsive" role ="button" id="RACKINGHIGHSPEEDLARGETURNOVER">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty13.png" class="img-responsive" role ="button" id="RACKINGHIGHSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty13.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty13.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty13.png" class="img-responsive">
+			</div>		
+              </div>
+            </div>
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty14.png" class="img-responsive" role ="button" id="RACKINGFASTSPEEDLARGE">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty14.png" class="img-responsive" role ="button" id="RACKINGFASTSPEEDLARGETURNOVER">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty14.png" class="img-responsive" role ="button" id="RACKINGFASTSPEEDMEDIUM">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty14.png" class="img-responsive" role ="button" id="RACKINGFASTSPEEDMEDIUMTURNOVER">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty14.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty14.png" class="img-responsive">
+			</div>		
+              </div>
+            </div>
+			<div class="item">
+		   <div class="row">
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty15.png" class="img-responsive" >
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty15.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                   <img src="./images/PAS/empty15.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                  <img src="./images/PAS/empty15.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+                 <img src="./images/PAS/empty15.png" class="img-responsive">
+			</div>
+			<div class="col-xs-2">
+				 <img src="./images/PAS/empty15.png" class="img-responsive">
+			</div>		
+              </div>
+            </div>
+</div>
+		</div>	
+	   </div>
+	   </div>
+    </div>
+  </div>
+</div>
+       <!--Left and right controls 
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a> -->
+ <!-- BABYLON & CHAT SOCKETIO-->
+<div class="container"> 
+ <div class="row"> 
+ <div class="col-xs-9 col-sm-9"id="border"> 
+   <canvas id="renderCanvas" width="800" height="450" class='img-responsive' style="border: 0px solid grey;"></canvas>
+ </div> 
+ <div class="col-xs-3 col-sm-3"id="border">  
+ <br>
+ <!--<div class="row">
+ <button class="btn btn-default btn-responsive" id="buttonability" >
+  <img src="./images/ability.png"  />
+</button>
+<button class="btn btn-default btn-responsive" id="buttonrobotsudio" >
+  <img src="./images/robotstudio.png"  />
+</button>
+ </div>-->
+ <br>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading" align="center" id="projectpanelname">PROJECT NAME</div>
+	<div class="panel-body">
+	        <div class="row">
+            <div class="col-xs-6">
+				<button type="button" class="btn btn-default" id="projectprice">INVEST</button>
+                <div id="projectpanelprice"></div>
+			</div> 
+			<div class="col-xs-6">
+			<button type="button" class="btn btn-default" id="projectcycletime">CT</button>
+            <div id="projectpanelcycletime"></div>
+			</div>
+			</div>
+    </div>
+	<div class="panel-footer">
+        <!--<button class="btn btn-default btn-responsive" id="buttonpdf" ><img src="./images/pdf.png"  /></button>-->
+       <button type="button" id="buttonsaveload" class="btn btn-default pull-left">LOAD/SAVE</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Start here-->
+<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Please Wait
+                 </h4>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                    style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal ends Here -->
+<!--FIRST SCENE-->
+<script type="text/javascript">
+
+      // Get the canvas element from our HTML below
+      var canvas = document.querySelector("#renderCanvas");
+      // Load the BABYLON 3D engine
+      var engine = new BABYLON.Engine(canvas, true);
+      // Here begins a function that we will 'call' just after it's built
+      var createScene = function () {
+         // Now create a basic Babylon Scene object
+         var scene = new BABYLON.Scene(engine);
+         // Change the scene background color to green.
+         scene.clearColor = new BABYLON.Color3(9, 5, 1);
+		//var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, -30, 0), scene);
+        //light0.diffuse = new BABYLON.Color3(1, 1, 1);
+        //light0.specular = new BABYLON.Color3(1, 1, 1);
+        //light0.groundColor = new BABYLON.Color3(0, 0, 0);
+        //light0.intensity=0.2;
+         // This creates and positions a free camera
+    var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+    camera.setPosition(new BABYLON.Vector3(7, 6, 7));
+    //scene.clearColor = new BABYLON.Color3(0, 0, 0);
+    // Light
+    // Events
+    var canvas = engine.getRenderingCanvas();
+	camera.attachControl(canvas, true);	  
+    return scene;
+    }
+var scene = createScene();
+ engine.runRenderLoop(function () {
+         scene.render();
+      });
+</script>
+<!--CONTROLS AND BUTTONS-->
+<script>
+$(document).ready(function() {
+ $("#ajax_loader").hide();
+ $('#myPleaseWait').modal('hide');
+     $('#myTabFlexSpot').show();
+     $('#myTabPAS').hide();
+	 $("#idLoad").hide();
+	 $("#idCreate").hide();
+	 $("#idEnter").hide();
+	 <!--$("#myModal").modal({backdrop: "static"});-->
+	 $("#myModalpassword").modal({backdrop: "static"});
+	<!-- $('#myModal').modal('hide');-->
+	 $('#myModalpassword').modal('show');
+	 $('#savetab_button').attr('class','hide');
+	 $("#projectpanelprice").hide();
+	 $("#projectpanelcycletime").hide();
+     $("#projectprice").click(function(e){
+        $("#projectpanelprice").slideToggle("fast");
+		e.preventDefault();
+    });
+    $("#projectcycletime").click(function(e){
+        $("#projectpanelcycletime").slideToggle("fast");
+		e.preventDefault();
+    });
+});
+$('#myModal').on('hidden.bs.modal', function (e) {
+    $(this).data('bs.modal').options.backdrop = true;
+});
+$("#buttonsaveload").button().click(function(){
+        $('#myModal').modal('show');
+			 $('#savetab_button').removeAttr('class', 'show');
+});
+$("#buttonrobotsudio").button().click(function(){
+      console.log("buttonrobotsudio"); 
+});
+$("#buttonpdf").button().click(function(){
+     console.log("buttonpdf");
+});
+$("#buttonability").button().click(function(){
+     console.log("buttonability");
+                  //  var jsFile = BABYLON.SceneSerializer.Serialize(scene);   //alert('ok')
+	         //var jsfinal = JSON.stringify(jsFile);
+			 //var jsFile2= JSON.parse(jsfinal);
+		      //  BABYLON.SceneLoader.Load("", "data:"+jsfinal, engine, function (newScene) {
+			//	scene.dispose();
+				//scene = newScene;
+			     //var arcCamera = new BABYLON.ArcRotateCamera("Camera", 0.7, 1, 10, new BABYLON.Vector3.Zero(), scene);
+			//arcCamera.setPosition(new BABYLON.Vector3(7, 6, 7));
+			//arcCamera.target = new BABYLON.Vector3(0, 0, 0);
+			//scene.activeCamera = arcCamera;
+			//arcCamera.attachControl(canvas, true);
+            //return scene;
+			//});
+			});
+$("#idEnter").button().click(function(){
+	<!-- $('#myModalpassword').modal('hide');-->
+	 $("#myModal").modal({backdrop: "static"});
+	 $('#myModal').modal('show');
+});
+</script>
+<!--CAROUSEL SELECTION ROBOTS-->
+<script>
+$("#robotstab").button().click(function(){
+var platsingleOnScene;
+var platdualOnScene;
+var plattriplesingleOnScene;
+var plattripledualOnScene;
+var element2 = scene.getMeshByID("FS_PLATSINGLE2");
+var element3 = scene.getMeshByID("FS_PLATDUAL");
+var element4 = scene.getMeshByID("FS_PLATTRIPLE");
+var element5 = scene.getMeshByID("FS_PLATTRIPLE2");
+      if(element2 == null){
+	  }else{
+	    platsingleOnScene=true;
+		platdualOnScene=false;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("single");
+		$("#myCarousel").carousel(1);
+	  }
+      if(element3 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("dual");
+		$("#myCarousel").carousel(18);
+	  }
+      if(element4 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=false;
+	    plattriplesingleOnScene=true;
+		plattripledualOnScene=false;
+		console.log("triplesingle");
+		$("#myCarousel").carousel(1);
+	  }
+      if(element5 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=true;
+		console.log("tripledual");
+		$("#myCarousel").carousel(18);
+	  }
+});
+</script>
+<script>
+<!--CAROUSEL SELECTION SWGUN-->
+$("#swguntab").button().click(function(){
+var platsingleOnScene;
+var platdualOnScene;
+var plattriplesingleOnScene;
+var plattripledualOnScene;
+var element2 = scene.getMeshByID("FS_PLATSINGLE2");
+var element3 = scene.getMeshByID("FS_PLATDUAL");
+var element4 = scene.getMeshByID("FS_PLATTRIPLE");
+var element5 = scene.getMeshByID("FS_PLATTRIPLE2");
+      if(element2 == null){
+	  }else{
+	    platsingleOnScene=true;
+		platdualOnScene=false;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("single");
+		$("#myCarousel").carousel(10);
+	  }
+      if(element3 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("dual");
+		$("#myCarousel").carousel(19);
+	  }
+      if(element4 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=false;
+	    plattriplesingleOnScene=true;
+		plattripledualOnScene=false;
+		console.log("triplesingle");
+		$("#myCarousel").carousel(10);
+	  }
+      if(element5 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=true;
+		console.log("tripledual");
+		$("#myCarousel").carousel(19);
+	  }
+});
+</script>
+<script>
+<!--CAROUSEL SELECTION SWCABINET-->
+$("#swguncabinettab").button().click(function(){
+var platsingleOnScene;
+var platdualOnScene;
+var plattriplesingleOnScene;
+var plattripledualOnScene;
+var element2 = scene.getMeshByID("FS_PLATSINGLE2");
+var element3 = scene.getMeshByID("FS_PLATDUAL");
+var element4 = scene.getMeshByID("FS_PLATTRIPLE");
+var element5 = scene.getMeshByID("FS_PLATTRIPLE2");
+      if(element2 == null){
+	  }else{
+	    platsingleOnScene=true;
+		platdualOnScene=false;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("single");
+		$("#myCarousel").carousel(11);
+	  }
+      if(element3 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=false;
+		console.log("dual");
+		$("#myCarousel").carousel(20);
+	  }
+      if(element4 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=false;
+	    plattriplesingleOnScene=true;
+		plattripledualOnScene=false;
+		console.log("triplesingle");
+		$("#myCarousel").carousel(11);
+	  }
+      if(element5 == null){
+	  }else{
+	    platsingleOnScene=false;
+	    platdualOnScene=true;
+	    plattriplesingleOnScene=false;
+		plattripledualOnScene=true;
+		console.log("tripledual");
+		$("#myCarousel").carousel(20);
+	  }
+});
+</script>
+<!--ITEM CAROUSEL SELECTION-->
+<script>
+	  var geometries2=[];
+	  var namegeometry;
+	  var changecards;
+	  $('.img-responsive').click(function() {
+      namegeometry=$(this).attr("id"); 
+	  if ((namegeometry == null)||(namegeometry == "renderCanvas")){
+      return false;
+      }
+	  var element = scene.getMeshByID(namegeometry);
+	  			console.log(element + "NAMEGEOMETRYYYYYY");
+      if ( element == null) 
+	       {
+		   	document.getElementById(namegeometry).className = "boxes3";
+            document.getElementById(namegeometry).style.pointerEvents = 'none';
+	      	socket.emit('addgeometrytoscene',namegeometry);
+			        //SELECT ONE/DESELECT OTHERS
+					//geometryOnscenePLATFORM
+			        if (namegeometry=="FS_PLATSINGLE2") 
+					{
+					    var seconditem= "FS_PLATDUAL"
+						var thirditem= "FS_PLATTRIPLE"
+						var fourthitem= "FS_PLATTRIPLE2"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+						geometries2= scene.getActiveMeshes();
+						for (var i = 0; i < geometries2.length; i++){
+									name= geometries2.data[i].id;
+									//
+									//ROBOTS
+									if(name=="FS_IRB6700200DUAL")
+									{
+									var namesingle="FS_IRB6700200";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700205DUAL")
+									{
+									var namesingle="FS_IRB6700205";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700235DUAL")
+									{
+									var namesingle="FS_IRB6700235";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6620150DUAL")
+									{
+									var namesingle="FS_IRB6620150";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									//
+									//SPOTGUN
+									if(name=="FS_AROCTYPEDUAL")
+									{
+									var namesingle="FS_AROCTYPE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROXTYPEDUAL")
+									{
+									var namesingle="FS_AROXTYPE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROTOPDUAL")
+									{
+									var namesingle="FS_AROTOP";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROBACKDUAL")
+									{
+									var namesingle="FS_AROBACK";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}		
+                                    //SPOTCABINET
+									if(name=="FS_BOSCHPST6100(AC)DUAL")
+									{
+									var namesingle="FS_BOSCHPST6100(AC)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_BOSCHPST6100(MF)DUAL")
+									{
+									var namesingle="FS_BOSCHPST6100(MF)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_PSQBOSCH_ADAPTIVEUIRDUAL")
+									{
+									var namesingle="FS_PSQBOSCH_ADAPTIVEUIR";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRATRON100(AC)DUAL")
+									{
+									var namesingle="FS_SERRATRON100(AC)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}	
+									if(name=="FS_SERRATRONMFC-3007CN(MF)DUAL")
+									{
+									var namesingle="FS_SERRATRONMFC-3007CN(MF)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRA_WISEDUAL")
+									{
+									var namesingle="FS_SERRA_WISE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+                                    //FENCING
+									//if(name=="FS_STDFENCINGDUAL")
+									//{
+									//var namesingle="FS_STDFENCING";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);									
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE")
+									//{
+									//var namesingle="FS_STDFENCING";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE2")
+									//{
+									//var namesingle="FS_STDFENCING";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}
+					}
+					}
+				    if ( namegeometry == "FS_PLATDUAL" ) 
+					{
+					    var seconditem= "FS_PLATSINGLE2"
+						var thirditem= "FS_PLATTRIPLE"
+						var fourthitem= "FS_PLATTRIPLE2"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+						geometries2= scene.getActiveMeshes();
+						for (var i = 0; i < geometries2.length; i++){
+									name= geometries2.data[i].id;
+									//
+									//ROBOTS
+									if(name=="FS_IRB6700200")
+									{
+									var namesingle="FS_IRB6700200DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700205")
+									{
+									var namesingle="FS_IRB6700205DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700235")
+									{
+									var namesingle="FS_IRB6700235DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6620150")
+									{
+									var namesingle="FS_IRB6620150DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									//SPOTGUN
+									if(name=="FS_AROCTYPE")
+									{
+									var namesingle="FS_AROCTYPEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROXTYPE")
+									{
+									var namesingle="FS_AROXTYPEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROTOP")
+									{
+									var namesingle="FS_AROTOPDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROBACK")
+									{
+									var namesingle="FS_AROBACKDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+                                    //SPOTCABINET
+									if(name=="FS_BOSCHPST6100(AC)")
+									{
+									var namesingle="FS_BOSCHPST6100(AC)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_BOSCHPST6100(MF)")
+									{
+									var namesingle="FS_BOSCHPST6100(MF)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_PSQBOSCH_ADAPTIVEUIR")
+									{
+									var namesingle="FS_PSQBOSCH_ADAPTIVEUIRDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRATRON100(AC)")
+									{
+									var namesingle="FS_SERRATRON100(AC)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}	
+									if(name=="FS_SERRATRONMFC-3007CN(MF)")
+									{
+									var namesingle="FS_SERRATRONMFC-3007CN(MF)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRA_WISE")
+									{
+									var namesingle="FS_SERRA_WISEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+                                    //FENCING
+									//if(name=="FS_STDFENCING")
+									//{
+									//var namesingle="FS_STDFENCINGDUAL";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);									
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE")
+									//{
+									//var namesingle="FS_STDFENCINGDUAL";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE2")
+									//{
+									//var namesingle="FS_STDFENCINGDUAL";
+	      	                       // socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}									
+					}
+					}
+				    if ( namegeometry == "FS_PLATTRIPLE" ) 
+					{
+					    var seconditem= "FS_PLATSINGLE2"
+						var thirditem= "FS_PLATDUAL"
+						var fourthitem= "FS_PLATTRIPLE2"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+							geometries2= scene.getActiveMeshes();
+						for (var i = 0; i < geometries2.length; i++){
+									name= geometries2.data[i].id;
+									if(name=="FS_IRB6700200DUAL")
+									{
+									var namesingle="FS_IRB6700200";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700205DUAL")
+									{
+									var namesingle="FS_IRB6700205";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700235DUAL")
+									{
+									var namesingle="FS_IRB6700235";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6620150DUAL")
+									{
+									var namesingle="FS_IRB6620150";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									//SPOTGUN
+									if(name=="FS_AROCTYPEDUAL")
+									{
+									var namesingle="FS_AROCTYPE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROXTYPEDUAL")
+									{
+									var namesingle="FS_AROXTYPE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROTOPDUAL")
+									{
+									var namesingle="FS_AROTOP";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROBACKDUAL")
+									{
+									var namesingle="FS_AROBACK";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+                                    //SPOTCABINET
+									if(name=="FS_BOSCHPST6100(AC)DUAL")
+									{
+									var namesingle="FS_BOSCHPST6100(AC)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_BOSCHPST6100(MF)DUAL")
+									{
+									var namesingle="FS_BOSCHPST6100(MF)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_PSQBOSCH_ADAPTIVEUIRDUAL")
+									{
+									var namesingle="FS_PSQBOSCH_ADAPTIVEUIR";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRATRON100(AC)DUAL")
+									{
+									var namesingle="FS_SERRATRON100(AC)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}	
+									if(name=="FS_SERRATRONMFC-3007CN(MF)DUAL")
+									{
+									var namesingle="FS_SERRATRONMFC-3007CN(MF)";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRA_WISEDUAL")
+									{
+									var namesingle="FS_SERRA_WISE";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}	
+                                    //FENCING
+									//if(name=="FS_STDFENCING")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);									
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE2")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}
+									//if(name=="FS_STDFENCINGDUAL")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}									
+					}
+					}
+					if ( namegeometry == "FS_PLATTRIPLE2" ) 
+					{
+					    var seconditem= "FS_PLATSINGLE2"
+						var thirditem= "FS_PLATDUAL"
+						var fourthitem= "FS_PLATTRIPLE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+							geometries2= scene.getActiveMeshes();
+						for (var i = 0; i < geometries2.length; i++){
+									name= geometries2.data[i].id;
+									if(name=="FS_IRB6700200")
+									{
+									var namesingle="FS_IRB6700200DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700205")
+									{
+									var namesingle="FS_IRB6700205DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6700235")
+									{
+									var namesingle="FS_IRB6700235DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_IRB6620150")
+									{
+									var namesingle="FS_IRB6620150DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									//SPOTGUN
+									if(name=="FS_AROCTYPE")
+									{
+									var namesingle="FS_AROCTYPEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROXTYPE")
+									{
+									var namesingle="FS_AROXTYPEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROTOP")
+									{
+									var namesingle="FS_AROTOPDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_AROBACK")
+									{
+									var namesingle="FS_AROBACKDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+                                    //SPOTCABINET
+									if(name=="FS_BOSCHPST6100(AC)")
+									{
+									var namesingle="FS_BOSCHPST6100(AC)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_BOSCHPST6100(MF)")
+									{
+									var namesingle="FS_BOSCHPST6100(MF)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_PSQBOSCH_ADAPTIVEUIR")
+									{
+									var namesingle="FS_PSQBOSCH_ADAPTIVEUIRDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRATRON100(AC)")
+									{
+									var namesingle="FS_SERRATRON100(AC)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}	
+									if(name=="FS_SERRATRONMFC-3007CN(MF)")
+									{
+									var namesingle="FS_SERRATRONMFC-3007CN(MF)DUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									if(name=="FS_SERRA_WISE")
+									{
+									var namesingle="FS_SERRA_WISEDUAL";
+	      	                        socket.emit('addgeometrytoscene',namesingle);
+									socket.emit('removegeometryfromscene',name);
+									}
+									//if(name=="FS_STDFENCING")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE2";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);									
+									//}
+									//if(name=="FS_STDFENCINGTRIPLE")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE2";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}
+									//if(name=="FS_STDFENCINGDUAL")
+									//{
+									//var namesingle="FS_STDFENCINGTRIPLE2";
+	      	                        //socket.emit('addgeometrytoscene',namesingle);
+									//socket.emit('removegeometryfromscene',name);	
+									//}										
+					}
+					}
+	                   //ROBOT
+				      if ( namegeometry == "FS_IRB6700200" ) 
+					{
+					    var seconditem= "FS_IRB6700205"
+						var thirditem= "FS_IRB6620150"
+						var fourthitem= "FS_IRB6700235"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6700205" ) 
+					{
+					    var seconditem= "FS_IRB6700200"
+						var thirditem= "FS_IRB6620150"
+						var fourthitem= "FS_IRB6700235"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6620150" ) 
+					{
+					    var seconditem= "FS_IRB6700200"
+						var thirditem= "FS_IRB6700205"
+						var fourthitem= "FS_IRB6700235"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6700235" ) 
+					{
+					    var seconditem= "FS_IRB6700200"
+						var thirditem= "FS_IRB6620150"
+						var fourthitem= "FS_IRB6700205"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+	                   //ROBOTDUAL
+				      if ( namegeometry == "FS_IRB6700200DUAL" ) 
+					{
+					    var seconditem= "FS_IRB6700205DUAL"
+						var thirditem= "FS_IRB6620150DUAL"
+						var fourthitem= "FS_IRB6700235DUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6700205DUAL" ) 
+					{
+					    var seconditem= "FS_IRB6700200DUAL"
+						var thirditem= "FS_IRB6620150DUAL"
+						var fourthitem= "FS_IRB6700235DUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6620150DUAL" ) 
+					{
+					    var seconditem= "FS_IRB6700200DUAL"
+						var thirditem= "FS_IRB6700205DUAL"
+						var fourthitem= "FS_IRB6700235DUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+				      if ( namegeometry == "FS_IRB6700235DUAL" ) 
+					{
+					    var seconditem= "FS_IRB6700200DUAL"
+						var thirditem= "FS_IRB6620150DUAL"
+						var fourthitem= "FS_IRB6700205DUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+					//SPOTGUN
+					  if ( namegeometry == "FS_AROCTYPE" ) 
+					{
+					    var seconditem= "FS_AROXTYPE"
+						var thirditem= "FS_AROTOP"
+						var fourthitem= "FS_AROBACK"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+					if ( namegeometry == "FS_AROXTYPE" ) 
+					{
+					    var seconditem= "FS_AROCTYPE"
+						var thirditem= "FS_AROTOP"
+						var fourthitem= "FS_AROBACK"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+					if ( namegeometry == "FS_AROTOP" ) 
+					{
+					    var seconditem= "FS_AROCTYPE"
+						var thirditem= "FS_AROXTYPE"
+						var fourthitem= "FS_AROBACK"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}	
+					if (namegeometry == "FS_AROBACK") 
+					{
+					    var seconditem= "FS_AROCTYPE"
+						var thirditem= "FS_AROXTYPE"
+						var fourthitem= "FS_AROTOP"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}					
+					//SPOTGUNDUAL
+					  if (namegeometry == "FS_AROCTYPEDUAL") 
+					{
+					    var seconditem= "FS_AROXTYPEDUAL"
+						var thirditem= "FS_AROTOPDUAL"
+						var fourthitem= "FS_AROBACKDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+					if (namegeometry == "FS_AROXTYPEDUAL") 
+					{
+					    var seconditem= "FS_AROCTYPEDUAL"
+						var thirditem= "FS_AROTOPDUAL"
+						var fourthitem= "FS_AROBACKDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}
+					if (namegeometry == "FS_AROTOPDUAL") 
+					{
+					    var seconditem= "FS_AROCTYPEDUAL"
+						var thirditem= "FS_AROXTYPEDUAL"
+						var fourthitem= "FS_AROBACKDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}	
+					if (namegeometry == "FS_AROBACKDUAL") 
+					{
+					    var seconditem= "FS_AROCTYPEDUAL"
+						var thirditem= "FS_AROXTYPEDUAL"
+						var fourthitem= "FS_AROTOPDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					}						
+                    //SPOTCABINET
+					  if (namegeometry == "FS_BOSCHPST6100(AC)") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(MF)"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIR"
+						var fourthitem= "FS_SERRATRON100(AC)"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)"
+						var sixthitem= "FS_SERRA_WISE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_BOSCHPST6100(MF)") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIR"
+						var fourthitem= "FS_SERRATRON100(AC)"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)"
+						var sixthitem= "FS_SERRA_WISE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_PSQBOSCH_ADAPTIVEUIR") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(MF)"
+						var thirditem= "FS_BOSCHPST6100(AC)"
+						var fourthitem= "FS_SERRATRON100(AC)"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)"
+						var sixthitem= "FS_SERRA_WISE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}	
+					if (namegeometry == "FS_SERRATRON100(AC)") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIR"
+						var fourthitem= "FS_BOSCHPST6100(MF)"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)"
+						var sixthitem= "FS_SERRA_WISE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_SERRATRONMFC-3007CN(MF)") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIR"
+						var fourthitem= "FS_BOSCHPST6100(MF)"
+						var fifthitem= "FS_SERRATRON100(AC)"
+						var sixthitem= "FS_SERRA_WISE"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}	
+					if (namegeometry == "FS_SERRA_WISE") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIR"
+						var fourthitem= "FS_BOSCHPST6100(MF)"
+						var fifthitem= "FS_SERRATRON100(AC)"
+						var sixthitem= "FS_SERRATRONMFC-3007CN(MF)"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}					
+                    //SPOTCABINETDUAL
+					  if (namegeometry == "FS_BOSCHPST6100(AC)DUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(MF)DUAL"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIRDUAL"
+						var fourthitem= "FS_SERRATRON100(AC)DUAL"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)DUAL"
+						var sixthitem= "FS_SERRA_WISEDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_BOSCHPST6100(MF)DUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)DUAL"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIRDUAL"
+						var fourthitem= "FS_SERRATRON100(AC)DUAL"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)DUAL"
+						var sixthitem= "FS_SERRA_WISEDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_PSQBOSCH_ADAPTIVEUIRDUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(MF)DUAL"
+						var thirditem= "FS_BOSCHPST6100(AC)DUAL"
+						var fourthitem= "FS_SERRATRON100(AC)DUAL"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)DUAL"
+						var sixthitem= "FS_SERRA_WISEDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}	
+					if (namegeometry == "FS_SERRATRON100(AC)DUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)DUAL"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIRDUAL"
+						var fourthitem= "FS_BOSCHPST6100(MF)DUAL"
+						var fifthitem= "FS_SERRATRONMFC-3007CN(MF)DUAL"
+						var sixthitem= "FS_SERRA_WISEDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}
+					if (namegeometry == "FS_SERRATRONMFC-3007CN(MF)DUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)DUAL"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIRDUAL"
+						var fourthitem= "FS_BOSCHPST6100(MF)DUAL"
+						var fifthitem= "FS_SERRATRON100(AC)DUAL"
+						var sixthitem= "FS_SERRA_WISEDUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}	
+					if (namegeometry == "FS_SERRA_WISEDUAL") 
+					{
+					    var seconditem= "FS_BOSCHPST6100(AC)DUAL"
+						var thirditem= "FS_PSQBOSCH_ADAPTIVEUIRDUAL"
+						var fourthitem= "FS_BOSCHPST6100(MF)DUAL"
+						var fifthitem= "FS_SERRATRON100(AC)DUAL"
+						var sixthitem= "FS_SERRATRONMFC-3007CN(MF)DUAL"
+					    socket.emit('removegeometryfromscene',seconditem);
+						socket.emit('removegeometryfromscene',thirditem);
+						socket.emit('removegeometryfromscene',fourthitem);
+					    socket.emit('removegeometryfromscene',fifthitem);
+						socket.emit('removegeometryfromscene',sixthitem);
+					}	
+					///SAFETIES
+					///if(namegeometry=="FS_STDFENCING")
+					///{
+					///				var seconditem= "FS_STDFENCINGDUAL"
+					///	            var thirditem= "FS_STDFENCINGTRIPLE"
+					///	            var fourthitem= "FS_STDFENCINGTRIPLE2"
+                    ///                socket.emit('removegeometryfromscene',seconditem);
+					///	            socket.emit('removegeometryfromscene',thirditem);
+					///	            socket.emit('removegeometryfromscene',fourthitem);	
+					///}						
+					///if(namegeometry=="FS_STDFENCINGDUAL")
+					///{
+					///				var seconditem= "FS_STDFENCING"
+					///	            var thirditem= "FS_STDFENCINGTRIPLE"
+					///	            var fourthitem= "FS_STDFENCINGTRIPLE2"
+                    ///                socket.emit('removegeometryfromscene',seconditem);
+					///	            socket.emit('removegeometryfromscene',thirditem);
+					///	            socket.emit('removegeometryfromscene',fourthitem);	
+					///}	
+					///if(namegeometry=="FS_STDFENCINGTRIPLE")
+					///{
+					///				var seconditem= "FS_STDFENCING"
+					///	            var thirditem= "FS_STDFENCINGDUAL"
+					///	            var fourthitem= "FS_STDFENCINGTRIPLE2"
+                     ///               socket.emit('removegeometryfromscene',seconditem);
+					///	            socket.emit('removegeometryfromscene',thirditem);
+					///	            socket.emit('removegeometryfromscene',fourthitem);	
+					///}
+					///if(namegeometry=="FS_STDFENCINGTRIPLE2")
+					///{
+					///				var seconditem= "FS_STDFENCING"
+					///	            var thirditem= "FS_STDFENCINGDUAL"
+					///	            var fourthitem= "FS_STDFENCINGTRIPLE"
+                    ///                socket.emit('removegeometryfromscene',seconditem);
+					///	            socket.emit('removegeometryfromscene',thirditem);
+					///	            socket.emit('removegeometryfromscene',fourthitem);	
+					///}	
+                    //DESTACKER	
+                    if (namegeometry == "FOLHIGHSPEEDLARGEBUFFER") 
+					{
+						var seconditem="FOLHIGHSPEEDMEDIUMBUFFER"
+						var thirditem="FOLFASTSPEEDLARGE"
+						var fourthitem="FOLFASTSPEEDMEDIUM"
+						var fifthitem="FOLMEDIUMSPEEDLARGE"
+						var sixthitem="FOLMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}	
+                    if (namegeometry == "FOLHIGHSPEEDMEDIUMBUFFER") 
+					{
+						var seconditem="FOLHIGHSPEEDLARGEBUFFER"
+						var thirditem="FOLFASTSPEEDLARGE"
+						var fourthitem="FOLFASTSPEEDMEDIUM"
+						var fifthitem="FOLMEDIUMSPEEDLARGE"
+						var sixthitem="FOLMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}	
+                    if (namegeometry == "FOLFASTSPEEDLARGE") 
+					{
+						var seconditem="FOLHIGHSPEEDLARGEBUFFER"
+						var thirditem="FOLHIGHSPEEDMEDIUMBUFFER"
+						var fourthitem="FOLFASTSPEEDMEDIUM"
+						var fifthitem="FOLMEDIUMSPEEDLARGE"
+						var sixthitem="FOLMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "FOLFASTSPEEDMEDIUM") 
+					{
+						var seconditem="FOLHIGHSPEEDLARGEBUFFER"
+						var thirditem="FOLHIGHSPEEDMEDIUMBUFFER"
+						var fourthitem="FOLFASTSPEEDLARGE"
+						var fifthitem="FOLMEDIUMSPEEDLARGE"
+						var sixthitem="FOLMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}	
+                    if (namegeometry == "FOLMEDIUMSPEEDLARGE") 
+					{
+						var seconditem="FOLHIGHSPEEDLARGEBUFFER"
+						var thirditem="FOLHIGHSPEEDMEDIUMBUFFER"
+						var fourthitem="FOLFASTSPEEDLARGE"
+						var fifthitem="FOLFASTSPEEDMEDIUM"
+						var sixthitem="FOLMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "FOLMEDIUMSPEEDMEDIUM") 
+					{
+						var seconditem="FOLHIGHSPEEDLARGEBUFFER"
+						var thirditem="FOLHIGHSPEEDMEDIUMBUFFER"
+						var fourthitem="FOLFASTSPEEDLARGE"
+						var fifthitem="FOLFASTSPEEDMEDIUM"
+						var sixthitem="FOLMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+					//WASHER-BRUSHER
+                    if (namegeometry == "WASHER") 
+					{
+						var seconditem="BRUSHER"
+					    socket.emit('paschangecards',seconditem);
+					}
+                    if (namegeometry == "BRUSHER") 
+					{
+						var seconditem="WASHER"
+					    socket.emit('paschangecards',seconditem);
+					}
+                    //LOADER
+                    if (namegeometry == "LOADERHIGHSPEEDLARGE") 
+					{
+						var seconditem="LOADERHIGHSPEEDMEDIUM"
+						var thirditem="LOADERFASTSPEEDLARGE"
+						var fourthitem="LOADERFASTSPEEDMEDIUM"
+						var fifthitem="LOADERMEDIUMSPEEDMEDIUM"
+						var sixthitem="LOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "LOADERHIGHSPEEDMEDIUM") 
+					{
+						var seconditem="LOADERHIGHSPEEDLARGE"
+						var thirditem="LOADERFASTSPEEDLARGE"
+						var fourthitem="LOADERFASTSPEEDMEDIUM"
+						var fifthitem="LOADERMEDIUMSPEEDMEDIUM"
+						var sixthitem="LOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "LOADERFASTSPEEDMEDIUM") 
+					{
+						var seconditem="LOADERHIGHSPEEDLARGE"
+						var thirditem="LOADERHIGHSPEEDMEDIUM"
+						var fourthitem="LOADERFASTSPEEDLARGE"
+						var fifthitem="LOADERMEDIUMSPEEDMEDIUM"
+						var sixthitem="LOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "LOADERFASTSPEEDLARGE") 
+					{
+						var seconditem="LOADERHIGHSPEEDLARGE"
+						var thirditem="LOADERHIGHSPEEDMEDIUM"
+						var fourthitem="LOADERFASTSPEEDMEDIUM"
+						var fifthitem="LOADERMEDIUMSPEEDMEDIUM"
+						var sixthitem="LOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+                    if (namegeometry == "LOADERMEDIUMSPEEDLARGE") 
+					{
+						var seconditem="LOADERHIGHSPEEDLARGE"
+						var thirditem="LOADERFASTSPEEDLARGE"
+						var fourthitem="LOADERFASTSPEEDMEDIUM"
+						var fifthitem="LOADERMEDIUMSPEEDMEDIUM"
+						var sixthitem="LOADERHIGHSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+					if (namegeometry == "LOADERMEDIUMSPEEDMEDIUM") 
+					{
+						var seconditem="LOADERHIGHSPEEDLARGE"
+						var thirditem="LOADERFASTSPEEDLARGE"
+						var fourthitem="LOADERFASTSPEEDMEDIUM"
+						var fifthitem="LOADERMEDIUMSPEEDLARGE"
+						var sixthitem="LOADERHIGHSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+						socket.emit('paschangecards',sixthitem);
+					}
+					//ITP
+                    if (namegeometry == "ITPHIGHSPEEDLARGE") 
+					{
+						var seconditem="ITPFASTSPEEDLARGE"
+						var thirditem="ITPFASTSPEEDMEDIUM"
+						var fourthitem="ITPMEDIUMSPEEDLARGE"
+						var fifthitem="ITPMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "ITPFASTSPEEDLARGE") 
+					{
+						var seconditem="ITPHIGHSPEEDLARGE"
+						var thirditem="ITPFASTSPEEDMEDIUM"
+						var fourthitem="ITPMEDIUMSPEEDLARGE"
+						var fifthitem="ITPMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "ITPFASTSPEEDMEDIUM") 
+					{
+						var seconditem="ITPHIGHSPEEDLARGE"
+						var thirditem="ITPFASTSPEEDLARGE"
+						var fourthitem="ITPMEDIUMSPEEDLARGE"
+						var fifthitem="ITPMEDIUMSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "ITPMEDIUMSPEEDMEDIUM") 
+					{
+						var seconditem="ITPHIGHSPEEDLARGE"
+						var thirditem="ITPFASTSPEEDLARGE"
+						var fourthitem="ITPMEDIUMSPEEDLARGE"
+						var fifthitem="ITPFASTSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "ITPMEDIUMSPEEDLARGE") 
+					{
+						var seconditem="ITPHIGHSPEEDLARGE"
+						var thirditem="ITPFASTSPEEDLARGE"
+						var fourthitem="ITPMEDIUMSPEEDMEDIUM"
+						var fifthitem="ITPFASTSPEEDMEDIUM"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+					//UNLOADER
+                    if (namegeometry == "UNLOADERHIGHSPEEDLARGE") 
+					{
+						var seconditem="UNLOADERHIGHSPEEDMEDIUM"
+						var thirditem="UNLOADERFASTSPEEDMEDIUM"
+						var fourthitem="UNLOADERFASTSPEEDLARGE"
+						var fifthitem="UNLOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "UNLOADERHIGHSPEEDMEDIUM") 
+					{
+						var seconditem="UNLOADERHIGHSPEEDLARGE"
+						var thirditem="UNLOADERFASTSPEEDMEDIUM"
+						var fourthitem="UNLOADERFASTSPEEDLARGE"
+						var fifthitem="UNLOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "UNLOADERFASTSPEEDMEDIUM") 
+					{
+						var seconditem="UNLOADERHIGHSPEEDLARGE"
+						var thirditem="UNLOADERHIGHSPEEDMEDIUM"
+						var fourthitem="UNLOADERFASTSPEEDLARGE"
+						var fifthitem="UNLOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "UNLOADERFASTSPEEDLARGE") 
+					{
+						var seconditem="UNLOADERHIGHSPEEDLARGE"
+						var thirditem="UNLOADERHIGHSPEEDMEDIUM"
+						var fourthitem="UNLOADERFASTSPEEDMEDIUM"
+						var fifthitem="UNLOADERMEDIUMSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+                    if (namegeometry == "UNLOADERMEDIUMSPEEDLARGE") 
+					{
+						var seconditem="UNLOADERHIGHSPEEDLARGE"
+						var thirditem="UNLOADERHIGHSPEEDMEDIUM"
+						var fourthitem="UNLOADERFASTSPEEDMEDIUM"
+						var fifthitem="UNLOADERFASTSPEEDLARGE"
+					    socket.emit('paschangecards',seconditem);
+						socket.emit('paschangecards',thirditem);
+						socket.emit('paschangecards',fourthitem);
+					    socket.emit('paschangecards',fifthitem);
+					}
+				
+		    console.log("start");
+	  }else{
+			if	(namegeometry=="FS_PLATSINGLE2" || namegeometry=="FS_PLATDUAL" || namegeometry=="FS_PLATTRIPLE" || namegeometry=="FS_PLATTRIPLE2"){
+			}else{
+	        socket.emit('removegeometryfromscene',namegeometry); 
+
+			}
+	  }  
+    });
+</script>
+<!--SOCKET.IO MANAGER-->
+<script>
+    var pricetotal=0;
+	var stringprice="";
+	var socket=io.connect();
+	jQuery(function($){
+	<!--MODAL-->
+	var $Businessunitnew=$('#idBusinessunitnew');
+	var $Projectnamenew=$('#idProjectnamenew');
+	var $Businessunitcreate=$('#idBusinessunitcreate');
+	var $Projectnamecreate=$('#idProjectnamecreate');
+    var $BusinessunitloadFlexSpot=$('#idBusinessunitloadFlexSpot');
+    var $BusinessunitloadPAS=$('#idBusinessunitloadPAS');
+	var $Projectnameload=$('#idProjectnameload');
+	var $Password=$('#idPassword');
+	 var businesselection="";
+	 var unitload="";
+	 var folonscene=false;
+	 var loaderonscene=false;
+	var itponscene=false;
+	var unloaderonscene=false;
+	var rackonscene=false;
+	 var folremovedonscene=false;
+	 var loaderremovedonscene=false;
+	var itpremovedonscene=false;
+	var unloaderremovedonscene=false;
+	var rackremovedonscene=false;
+<!--MODAL-->
+	$("#idBusinessunitloadFlexSpot").button().click(function(){
+       businesselection="FLEXSPOT";
+	   $BusinessunitloadFlexSpot.addClass('active');
+	    $BusinessunitloadPAS.removeClass('active');
+	       <!-- var businesselection=null;-->
+		<!--if	(businesselection=="FLEXSPOT" || businesselection=="PAS"){-->
+		$("#idLoad").show();
+	  socket.emit('reqloaddatabase',{name: "FLEXSPOT"}); 
+	   $("#ajax_loader").show();
+	   $('#myPleaseWait').modal('show');
+      console.log(businesselection +"APPEARS");
+        <!-- }-->
+		 });
+	$("#idBusinessunitloadPAS").button().click(function(){
+       businesselection="PAS";
+	    $BusinessunitloadPAS.addClass('active');
+		 $BusinessunitloadFlexSpot.removeClass('active');
+	       <!-- var businesselection=null;-->
+		<!--if	(businesselection=="FLEXSPOT" || businesselection=="PAS"){-->
+		$("#idLoad").show();
+	  socket.emit('reqloaddatabase',{name: "PAS"}); 
+	   $("#ajax_loader").show();
+	   $('#myPleaseWait').modal('show');
+      console.log(businesselection +"APPEARS");
+        <!-- }-->
+		 });
+    $("#idBusinessunitcreate").button().click(function(){
+      var businesselection2=$Businessunitcreate.val();
+		if	(businesselection2=="FLEXSPOT" || businesselection2=="PAS"){
+		$("#idCreate").show();
+         }	
+    });
+	  $("#idValidate").button().click(function(){
+      var businesselection3=$Password.val();
+		if(businesselection3=="FACTORYSALES2017"){
+		$("#idEnter").show();
+         }	
+    });
+$('#myModal').on('hide.bs.modal show.bs.modal', function(event){
+  var $activeElement = $(document.activeElement);
+  if ($activeElement.is('[data-toggle], [data-dismiss]')){
+      if (event.type === 'show'){
+	       console.debug('modal shown!');
+      }
+	   
+    if (event.type === 'hide'){
+	 console.debug('modal hide!');
+	       if ( $activeElement.attr('id') === 'idSave'){
+		                 var jsFile = BABYLON.SceneSerializer.Serialize(scene);
+	                     var jsfinal = JSON.stringify(jsFile);
+						 var unitnavbar=document.getElementById("navbarText");
+				         socket.emit('Saveproject',{ name: $Projectnamenew.val(),businessunit:unitnavbar.textContent,scenebabylon:jsfinal});
+						 
+		   }
+		   else if ( $activeElement.attr('id') === 'idLoad'){
+		   		         console.log('The button that closed the modal is: ',$activeElement.attr('id'));
+						<!-- socket.emit('Loadproject',{ name: $Businessunitload.val()+$Projectnameload.val()});-->
+						socket.emit('Loadproject',{ name: businesselection+$Projectnameload.val()});
+		              						 
+		   }
+		   else if ( $activeElement.attr('id') === 'idCreate'){
+		                  var jsFile = BABYLON.SceneSerializer.Serialize(scene);
+	                      var jsfinal = JSON.stringify(jsFile);
+		   		          console.log('The button that closed the modal is: ', $activeElement.attr('id'));
+                          socket.emit('Createproject',{ name: $Projectnamecreate.val(),businessunit:$Businessunitcreate.val(),scenebabylon:jsfinal});
+                          						  
+		   }
+    }
+  }
+});
+socket.on('loadscene',function(data){
+		folonscene=false;
+		loaderonscene=false;
+		itponscene=false;
+		unloaderonscene=false;
+		rackonscene=false;
+		folonsceneupdate=false;
+		loaderonsceneupdate=false;
+		itponsceneupdate=false;
+		unloaderonsceneupdate=false;
+		rackonsceneupdate=false;
+	   var geometries=[];
+	   var arcCamera2=null;
+	   unitload=data.nameunit;	
+	   var reducestring2=data.namescene.substring(unitload.length); 
+	   $('#projectpanelname').html(reducestring2);	
+	   stringprice=pricetotal.toString();
+	   $('#projectpanelprice').html(stringprice+""+"€");	
+       $('#projectpanelcycletime').html("sec.");
+	   var scenetoload=data.namelayout;
+	   unitload=data.nameunit;
+	   				if (unitload=="FLEXSPOT"){
+				     $('#myTabFlexSpot').show();
+                     $('#myTabPAS').hide();
+					  $('#navbarText').html(unitload);
+					 }
+					 if (unitload=="PAS"){
+				     $('#myTabFlexSpot').hide();
+                     $('#myTabPAS').show();
+					  $('#navbarText').html(unitload);
+					 }
+	   BABYLON.SceneLoader.Load("", "data:"+scenetoload, engine, function (newScene){
+	            scene = newScene;			
+	            if (unitload=="FLEXSPOT"){
+				$("#myCarousel").carousel(0);
+					var arcCamera1 = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                   arcCamera1.lowerBetaLimit = 0.6;
+                   arcCamera1.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera1.lowerRadiusLimit = 10;
+					arcCamera1.upperRadiusLimit = 10;
+					arcCamera1.setPosition(new BABYLON.Vector3(7, 6, 7));
+					arcCamera1.target = new BABYLON.Vector3(0, 0, -1.5);
+					scene.activeCamera = arcCamera1;
+					scene.activeCamera.attachControl(canvas);
+					  scene.clearColor = new BABYLON.Color3(9, 5, 1);
+					var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(-10, -30, -10), scene);
+                   light0.intensity=0.2;
+				}
+				if (unitload=="PAS"){
+				$("#myCarousel").carousel(21);
+				   var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(0,0,0), scene);
+                   arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	  	   
+	                console.log("generalcamera!!!!!!!!");
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas);
+					scene.clearColor = new BABYLON.Color3(9, 5, 1);
+					var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(-10, -30, -10), scene);
+					light0.intensity=0.2;
+				}
+				scene.executeWhenReady(function (){  
+                       var name = "";				
+						geometries= scene.getActiveMeshes();
+							    console.log(geometries);
+								if (geometries.length=="0")
+								{
+								$('#varianttab').show();
+								$('#robotstab').hide();
+								$('#robotsopttab').hide();
+								$('#plctab').hide();
+								$('#turntabletab').hide();
+								$('#turntableopttab').hide();
+								$('#safetyopttab').hide();
+								$('#fencingopttab').hide();
+								$('#gunonrobottab').hide();
+								$('#swguntab').hide();
+								$('#mhtab').hide();
+								$('#otherstab').hide();
+								$('#tipopttab').hide();
+								$('#swguncabinettab').hide();
+								$('#swgunbrackettab').hide();
+								$('#swtipdressertab').hide();
+								$('#supliestab').hide();
+								$('#softwaretab').hide();
+								$('#servicestab').hide();	
+								$('#spotweldingtab').hide();
+								$('#suppliestab').hide();								
+								}
+								if (geometries.length!="0")
+								{	
+								$('#varianttab').show();
+								$('#robotstab').show();
+								$('#robotsopttab').show();
+								$('#plctab').show();
+								$('#turntabletab').show();
+								$('#turntableopttab').show();
+								$('#safetyopttab').show();
+								$('#fencingopttab').show();
+								$('#gunonrobottab').show();
+								$('#swguntab').show();
+								$('#mhtab').show();
+								$('#otherstab').show();
+								$('#tipopttab').show();
+								$('#swguncabinettab').show();
+								$('#swgunbrackettab').show();
+								$('#swtipdressertab').show();
+								$('#supliestab').show();
+								$('#softwaretab').show();
+								$('#servicestab').show();
+								$('#spotweldingtab').show();
+								$('#suppliestab').show();								
+								}
+						$('.boxes').toggleClass('boxes boxes2');
+						pricetotal=0;
+						stringprice=pricetotal.toString();
+					    $('#projectpanelprice').html(stringprice+""+"€");	
+                        $('#projectpanelcycletime').html("sec.");
+						for (var i = 0; i < geometries.length; i++) {
+									name= geometries.data[i].id;
+									socket.emit('updatepriceandcycletime',name);
+									if (name=="FOLHIGHSPEEDLARGEBUFFER" || name=="FOLHIGHSPEEDMEDIUMBUFFER"|| name=="FOLFASTSPEEDLARGE" || name=="FOLFASTSPEEDMEDIUM"|| name=="FOLMEDIUMSPEEDLARGE"|| name=="FOLMEDIUMSPEEDMEDIUM"|| name=="BRUSHER"|| name=="WASHER"|| name=="OILER")
+									{
+										  folonscene=true;	
+										  folonsceneupdate=true;
+									}
+									if (name=="LOADERHIGHSPEEDLARGE" || name=="LOADERHIGHSPEEDMEDIUM"|| name=="LOADERFASTSPEEDLARGE" || name=="LOADERFASTSPEEDMEDIUM"|| name=="LOADERMEDIUMSPEEDLARGE"|| name=="LOADERMEDIUMSPEEDMEDIUM"|| name== "LOADERDIRECT6660"|| name=="LOADERDIRECT6660FX"|| name== "LOADERDIRECT7600FX")
+									{
+										  loaderonscene=true;
+										  loaderonsceneupdate=true;
+									}
+									if (name=="ITPHIGHSPEEDLARGE" || name=="ITPHIGHSPEEDMEDIUM"|| name=="ITPFASTSPEEDLARGE" || name=="ITPFASTSPEEDLARGE2"|| name=="ITPFASTSPEEDMEDIUM"|| name=="ITPFASTSPEEDMEDIUM2"|| name=="ITPFASTSPEEDMEDIUM3"|| name=="ITPMEDIUMSPEEDLARGE"|| name=="ITPMEDIUMSPEEDMEDIUM")
+									{
+										  itponscene=true;
+										  itponsceneupdate=true;
+									}
+									if (name=="UNLOADERHIGHSPEEDLARGE" || name=="UNLOADERHIGHSPEEDMEDIUM"|| name=="UNLOADERFASTSPEEDLARGE" || name=="UNLOADERFASTSPEEDMEDIUM"|| name=="UNLOADERMEDIUMSPEEDLARGE")
+									{
+										  unloaderonscene=true;
+										  unloaderonsceneupdate=true;
+									}
+									if (name=="RACKINGHIGHSPEEDLARGE" || name=="RACKINGHIGHSPEEDLARGETURNOVER"|| name==" RACKINGHIGHSPEEDMEDIUM" || name=="RACKINGFASTSPEEDLARGE"|| name=="RACKINGFASTSPEEDLARGETURNOVER" || name=="RACKINGFASTSPEEDMEDIUM"|| name=="RACKINGFASTSPEEDMEDIUMTURNOVER")
+									{
+										  rackonscene=true;
+										  rackonsceneupdate=true;
+									}
+									}
+	   if (unitload=="PAS"){
+	   console.log('Unloaderonscene:' + unloaderonscene);
+	   if ((folonscene==true)&&(loaderonscene==false)&&(itponscene==false)&&(unloaderonscene==false)&&(rackonscene==false))
+	   {
+	   	   //camera muy cerca centrada en fol//
+		   console.log("folcamera!!!!!!!!");
+		   	   	  var arcCamera3 = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera3.lowerBetaLimit = 0.5;
+                    arcCamera3.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera3.lowerRadiusLimit = 15;
+				    arcCamera3.upperRadiusLimit = 15;
+					arcCamera3.setPosition(new BABYLON.Vector3(-5, 60, -5));
+					arcCamera3.target = new BABYLON.Vector3(-10, 1, 5);
+					scene.activeCamera = arcCamera3;
+					scene.activeCamera.attachControl(canvas);					
+	   }
+	   if ((folonscene==true)&&(loaderonscene==true)&&(itponscene==false)&&(unloaderonscene==false)&&(rackonscene==false))
+	   {
+	   		   console.log("LOADERcamera!!!!!!!!");
+                   var arcCamera4 = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                   arcCamera4.lowerBetaLimit = 0.7;
+                   arcCamera4.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera4.lowerRadiusLimit = 19;
+					arcCamera4.upperRadiusLimit = 19;
+					arcCamera4.setPosition(new BABYLON.Vector3(-5, 55, -5));
+					arcCamera4.target = new BABYLON.Vector3(-2, -3, 5);
+					scene.activeCamera = arcCamera4;
+					scene.activeCamera.attachControl(canvas);
+	   //camera cercacentrada en loader//
+	   }
+	   if ((folonscene==false)&&(loaderonscene==false)&&(itponscene==false)&&(((unloaderonscene==true)&&(rackonscene==true))||((unloaderonscene==false)&&(rackonscene==true))||((unloaderonscene==true)&&(rackonscene==false))))
+	   {
+	   	   //camera centrada en racking+unloader
+                    var arcCamera5 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(35,10,0), scene);
+                    arcCamera5.lowerBetaLimit = 0.8;
+                    arcCamera5.upperBetaLimit = (Math.PI / 2) * 0.99;
+				    arcCamera5.lowerRadiusLimit = 3;
+					arcCamera5.upperRadiusLimit = 3;
+					arcCamera5.setPosition(new BABYLON.Vector3(-20,30,-25));
+					arcCamera5.target = new BABYLON.Vector3(25,5,0);
+					scene.activeCamera = arcCamera5;
+					arcCamera5.attachControl(canvas);
+					console.log("rackcameraREIMON!!!!!!!!");
+	   }
+	   if (itponscene==true)
+	   {
+                    var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+                    //arcCamera2.lowerBetaLimit = 0.6;
+                   //arcCamera2.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					arcCamera2.attachControl(canvas);	   
+	   console.log("generalcamera!!!!!!!!");
+	   }
+	   }
+	});	
+	});	
+	});
+socket.on('savescene',function(data){
+	    unitload=data.nameunit;	   
+	   var reducestring2=data.namescene.substring(unitload.length); 
+	   $('#projectpanelname').html(reducestring2);	   
+	  		   stringprice=pricetotal.toString();
+		  $('#projectpanelprice').html(stringprice+""+"€");	
+          $('#projectpanelcycletime').html("sec.");
+	   if (unitload=="FLEXSPOT"){
+	   	 $('#myTabFlexSpot').show();
+         $('#myTabPAS').hide();
+		  $('#navbarText').html(unitload);
+	   }
+	   if (unitload=="PAS"){
+	   	$('#myTabFlexSpot').hide();
+        $('#myTabPAS').show();
+		 $('#navbarText').html(unitload);
+	   }
+	});
+socket.on('geometryupdate',function(data){
+		   //Finding image related with data in bootstrap carousel;
+		   var y=data.nameitem;
+		   document.getElementById(y).className = "boxes";
+		   pricetotal=pricetotal+data.priceitem;
+	  	   stringprice=pricetotal.toString();
+		  $('#projectpanelprice').html(stringprice+""+"€");	
+          $('#projectpanelcycletime').html("sec.");
+	});		
+socket.on('geometryOnscene',function(data){
+                  var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera2", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+				  var arcCamera3 = new BABYLON.ArcRotateCamera("ArcRotateCamera3", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+				  var arcCamera4 = new BABYLON.ArcRotateCamera("ArcRotateCamera4", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+				  var arcCamera5 = new BABYLON.ArcRotateCamera("ArcRotateCamera5", 1, 0.8, 10, new BABYLON.Vector3(35,10,0), scene);
+				  var arcCamera6 = new BABYLON.ArcRotateCamera("ArcRotateCamera6", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+           if (unitload=="FLEXSPOT"){
+		   BABYLON.SceneLoader.ImportMesh("", "scenes/flexspot/", data.nameitem + ".babylon", scene, function () {
+           camera.target = newMeshes[0];
+		   });
+		   				scene.executeWhenReady(function (){  
+		   			console.log("loaded!!!!");
+		            var y=data.nameitem;
+		   		    document.getElementById(y).className = "boxes";
+					document.getElementById(y).style.pointerEvents = 'auto'; 
+		   		    pricetotal=pricetotal+data.priceitem;
+	  	            stringprice=pricetotal.toString();
+		            $('#projectpanelprice').html(stringprice+""+"€");	
+                    $('#projectpanelcycletime').html("sec.");
+					if (data.nameitem=="FS_PLATSINGLE2"|| data.nameitem=="FS_PLATDUAL"|| data.nameitem=="FS_PLATTRIPLE"|| data.nameitem=="FS_PLATTRIPLE2")
+					{
+					$('#varianttab').show();
+								$('#robotstab').show();
+								$('#robotsopttab').show();
+								$('#plctab').show();
+								$('#turntabletab').show();
+								$('#turntableopttab').show();
+								$('#safetyopttab').show();
+								$('#fencingopttab').show();
+								$('#gunonrobottab').show();
+								$('#swguntab').show();
+								$('#mhtab').show();
+								$('#otherstab').show();
+								$('#tipopttab').show();
+								$('#swguncabinettab').show();
+								$('#swgunbrackettab').show();
+								$('#swtipdressertab').show();
+								$('#supliestab').show();
+								$('#softwaretab').show();
+								$('#servicestab').show();
+								$('#spotweldingtab').show();
+								$('#suppliestab').show();	
+					}
+				});
+            }
+           if (unitload=="PAS"){
+		   BABYLON.SceneLoader.ImportMesh("", "scenes/pas/", data.nameitem + ".babylon", scene, function () {
+           camera.target = newMeshes[0];
+		   });
+		   				scene.executeWhenReady(function (){  
+		   			console.log(data.nameitem + "TO PUTINSIDE!!!!!!!!!!!");
+		            var y=data.nameitem;
+		   		    document.getElementById(y).className = "boxes";
+					document.getElementById(y).style.pointerEvents = 'auto'; 
+		   		    pricetotal=pricetotal+data.priceitem;
+	  	            stringprice=pricetotal.toString();
+		            $('#projectpanelprice').html(stringprice+""+"€");	
+                    $('#projectpanelcycletime').html("sec.");
+									if (y=="FOLHIGHSPEEDLARGEBUFFER" || y=="FOLHIGHSPEEDMEDIUMBUFFER"|| y=="FOLFASTSPEEDLARGE" || y=="FOLFASTSPEEDMEDIUM"|| y=="FOLMEDIUMSPEEDLARGE"|| y=="FOLMEDIUMSPEEDMEDIUM"|| y=="BRUSHER"|| y=="WASHER"|| y=="OILER")
+									{
+										  folonsceneupdate=true;									  
+									}
+									if (y=="LOADERHIGHSPEEDLARGE" || y=="LOADERHIGHSPEEDMEDIUM"|| y=="LOADERFASTSPEEDLARGE" || y=="LOADERFASTSPEEDMEDIUM"|| y=="LOADERMEDIUMSPEEDLARGE"|| y=="LOADERMEDIUMSPEEDMEDIUM"|| y== "LOADERDIRECT6660"|| y=="LOADERDIRECT6660FX"|| y== "LOADERDIRECT7600FX")
+									{
+										  loaderonsceneupdate=true;
+									}
+									if (y=="ITPHIGHSPEEDLARGE" || y=="ITPHIGHSPEEDMEDIUM"|| y=="ITPFASTSPEEDLARGE" || y=="ITPFASTSPEEDLARGE2"|| y=="ITPFASTSPEEDMEDIUM"|| y=="ITPFASTSPEEDMEDIUM2"|| y=="ITPFASTSPEEDMEDIUM3"|| y=="ITPMEDIUMSPEEDLARGE"|| y=="ITPMEDIUMSPEEDMEDIUM")
+									{
+										  itponsceneupdate=true;
+									}
+									if (y=="UNLOADERHIGHSPEEDLARGE" || y=="UNLOADERHIGHSPEEDMEDIUM"|| y=="UNLOADERFASTSPEEDLARGE" || y=="UNLOADERFASTSPEEDMEDIUM"|| y=="UNLOADERMEDIUMSPEEDLARGE")
+									{
+										  unloaderonsceneupdate=true;
+									}
+									if (y=="RACKINGHIGHSPEEDLARGE" || y=="RACKINGHIGHSPEEDLARGETURNOVER"|| y=="RACKINGHIGHSPEEDMEDIUM" || y=="RACKINGFASTSPEEDLARGE"|| y=="RACKINGFASTSPEEDLARGETURNOVER" || y=="RACKINGFASTSPEEDMEDIUM"|| y=="RACKINGFASTSPEEDMEDIUMTURNOVER")
+									{
+										  rackonsceneupdate=true;
+									}	
+//DESTACKER IN
+if ((folonsceneupdate==true)&&(loaderonsceneupdate==false)&&(itponsceneupdate==false)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+									{
+	   	                            //camera muy cerca centrada en fol//
+		                            console.log("folcamera!!!!!!!!")
+                    arcCamera3.lowerBetaLimit = 0.5;
+                    arcCamera3.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera3.lowerRadiusLimit = 15;
+				    arcCamera3.upperRadiusLimit = 15;
+					arcCamera3.setPosition(new BABYLON.Vector3(-5, 60, -5));
+					arcCamera3.target = new BABYLON.Vector3(-10, 1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera3.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera3.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera3.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera3.animations.push(radiusAnimation);
+	                arcCamera3.animations.push(alphaAnimation);
+	                arcCamera3.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera3, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera3;
+					scene.activeCamera.attachControl(canvas);				
+	   }
+	   //LOADER IN
+		   if ((folonsceneupdate==false)&&(loaderonsceneupdate==true)&&(itponsceneupdate==false)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+					{
+	   	           //camera muy cerca centrada en LOADER//
+		           console.log("LOADERcamera!!!!!!!!");
+                   //define cameras
+                    arcCamera6.lowerBetaLimit = 0.9;
+                    arcCamera6.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera6.lowerRadiusLimit = 14;
+					arcCamera6.upperRadiusLimit = 14;
+	                arcCamera6.setPosition(new BABYLON.Vector3(-5, 70, -5));
+					arcCamera6.target = new BABYLON.Vector3(1, -1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera6.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera6.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera6.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera6.animations.push(radiusAnimation);
+	                arcCamera6.animations.push(alphaAnimation);
+	                arcCamera6.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera6, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera6;
+					scene.activeCamera.attachControl(canvas);					
+	   }
+	   	   //DESTACKER + LOADER IN
+	   if ((folonsceneupdate==true)&&(loaderonsceneupdate==true)&&(itponsceneupdate==false)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+	   {
+	   		   console.log("FOL+LOADERcamera!!!!!!!!");
+                   arcCamera4.lowerBetaLimit = 0.7;
+                   arcCamera4.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera4.lowerRadiusLimit = 19;
+					arcCamera4.upperRadiusLimit = 19;
+					arcCamera4.setPosition(new BABYLON.Vector3(-5, 55, -5));
+					arcCamera4.target = new BABYLON.Vector3(-2, -3, 5);
+					//
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera4.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera4.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera4.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera4.animations.push(radiusAnimation);
+	                arcCamera4.animations.push(alphaAnimation);
+	                arcCamera4.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera4, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera4;
+					scene.activeCamera.attachControl(canvas);
+	   }
+	   //UNLOADER OR RACK IN ALONE
+	   if ((folonsceneupdate==false)&&(loaderonsceneupdate==false)&&(itponsceneupdate==false)&&(((unloaderonsceneupdate==true)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))))
+	   {
+	   	   //camera centrada en racking+unloader
+                    //var arcCamera5 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(35,10,0), scene);
+                    arcCamera5.lowerBetaLimit = 0.8;
+                    arcCamera5.upperBetaLimit = (Math.PI / 2) * 0.99;
+				    arcCamera5.lowerRadiusLimit = 3;
+					arcCamera5.upperRadiusLimit = 3;
+					arcCamera5.setPosition(new BABYLON.Vector3(-20,30,-25));
+					arcCamera5.target = new BABYLON.Vector3(25,5,0);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera5.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera5.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera5.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera5.animations.push(radiusAnimation);
+	                arcCamera5.animations.push(alphaAnimation);
+	                arcCamera5.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera5, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera5;
+					scene.activeCamera.attachControl(canvas);
+	   }
+//UNLOADER+RACK IN + OTHERS
+	   if (((folonsceneupdate==true)||(loaderonsceneupdate==true))&&(((unloaderonsceneupdate==true)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))))
+	   {
+ 					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	   
+	                console.log("generalcamera!!!!!!!!");
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas);
+	   }
+	   	   //ITP IN
+	   if (itponsceneupdate==true)
+					{	
+ 					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	   
+	                console.log("generalcamera!!!!!!!!");
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas);
+					}			
+				});
+       }			
+	});
+socket.on('geometryOutofscene',function(data){
+		   console.log(data.nameitem + "TO REMOVE!!!!!!!!!!!");
+		   var y=data.nameitem;
+		   var element = scene.getMeshByID(y);
+		   if(element == null){
+		   }else{
+           element.dispose();
+		   document.getElementById(y).className = "boxes2";
+		   pricetotal=pricetotal-data.priceitem;
+	  	   stringprice=pricetotal.toString();
+		   $('#projectpanelprice').html(stringprice+""+"€");	
+           $('#projectpanelcycletime').html("sec.");
+			if (y=="FOLHIGHSPEEDLARGEBUFFER" || y=="FOLHIGHSPEEDMEDIUMBUFFER"|| y=="FOLFASTSPEEDLARGE" || y=="FOLFASTSPEEDMEDIUM"|| y=="FOLMEDIUMSPEEDLARGE"|| y=="FOLMEDIUMSPEEDMEDIUM"|| y=="BRUSHER"|| y=="WASHER"|| y=="OILER")
+				{
+				folonsceneupdate=false;	
+				folremovedonscene=true;
+			}
+			if (y=="LOADERHIGHSPEEDLARGE" || y=="LOADERHIGHSPEEDMEDIUM"|| y=="LOADERFASTSPEEDLARGE" || y=="LOADERFASTSPEEDMEDIUM"|| y=="LOADERMEDIUMSPEEDLARGE"|| y=="LOADERMEDIUMSPEEDMEDIUM"|| y== "LOADERDIRECT6660"|| y=="LOADERDIRECT6660FX"|| y== "LOADERDIRECT7600FX")
+			{
+				loaderonsceneupdate=false;
+				loaderremovedonscene=true;
+			}
+			if (y=="ITPHIGHSPEEDLARGE" || y=="ITPHIGHSPEEDMEDIUM"|| y=="ITPFASTSPEEDLARGE" || y=="ITPFASTSPEEDLARGE2"|| y=="ITPFASTSPEEDMEDIUM"|| y=="ITPFASTSPEEDMEDIUM2"|| y=="ITPFASTSPEEDMEDIUM3"|| y=="ITPMEDIUMSPEEDLARGE"|| y=="ITPMEDIUMSPEEDMEDIUM")
+			{
+				itponsceneupdate=false;
+				itpremovedonscene=true;
+			}
+			if (y=="UNLOADERHIGHSPEEDLARGE" || y=="UNLOADERHIGHSPEEDMEDIUM"|| y=="UNLOADERFASTSPEEDLARGE" || y=="UNLOADERFASTSPEEDMEDIUM"|| y=="UNLOADERMEDIUMSPEEDLARGE")
+			{
+				unloaderonsceneupdate=false;
+				unloaderremovedonscene=true;
+			}
+			if (y=="RACKINGHIGHSPEEDLARGE" || y=="RACKINGHIGHSPEEDLARGETURNOVER"|| y=="RACKINGHIGHSPEEDMEDIUM" || y=="RACKINGFASTSPEEDLARGE"|| y=="RACKINGFASTSPEEDLARGETURNOVER" || y=="RACKINGFASTSPEEDMEDIUM"|| y=="RACKINGFASTSPEEDMEDIUMTURNOVER")
+			{
+				rackonsceneupdate=false;
+				rackremovedonscene=true;
+			}
+		    }
+//LOADERREMOVED-FOL IN - NO ITP -  NO UNLOAD -NO RACK 			
+if ((loaderremovedonscene==true)&&(folonsceneupdate==true)&&(itponsceneupdate==false)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+		{
+					loaderremovedonscene=false;
+					console.log("QUITO LOADER-PONGO DESTACKER!!!!!!!!!!!!!!!");
+					var arcCamera3 = new BABYLON.ArcRotateCamera("ArcRotateCamera3", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera3.lowerBetaLimit = 0.5;
+                    arcCamera3.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera3.lowerRadiusLimit = 15;
+				    arcCamera3.upperRadiusLimit = 15;
+					arcCamera3.setPosition(new BABYLON.Vector3(-5, 60, -5));
+					arcCamera3.target = new BABYLON.Vector3(-10, 1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera3.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera3.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera3.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera3.animations.push(radiusAnimation);
+	                arcCamera3.animations.push(alphaAnimation);
+	                arcCamera3.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera3, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera3;
+					scene.activeCamera.attachControl(canvas);					
+	   }
+//FOL REMOVED-LOADER IN - NO ITP -  NO UNLOAD - NO RACK 	
+if ((folremovedonscene==true)&&(loaderonsceneupdate==true)&&(itponsceneupdate==false)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+		{
+					folremovedonscene=false;								
+					console.log("QUITO DESTACKER-PONGO LOADER!!!!!!!!!!!!!!!");
+					var arcCamera6 = new BABYLON.ArcRotateCamera("ArcRotateCamera6", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera6.lowerBetaLimit = 0.9;
+                    arcCamera6.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera6.lowerRadiusLimit = 14;
+					arcCamera6.upperRadiusLimit = 14;
+	                arcCamera6.setPosition(new BABYLON.Vector3(-5, 70, -5));
+					arcCamera6.target = new BABYLON.Vector3(1, -1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera6.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera6.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera6.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera6.animations.push(radiusAnimation);
+	                arcCamera6.animations.push(alphaAnimation);
+	                arcCamera6.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera6, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera6;
+					scene.activeCamera.attachControl(canvas);					
+	   }  
+//LOADERREMOVED-FOL IN - ITP IN -  NO UNLOAD -NO RACK 			
+if ((loaderremovedonscene==true)&&(folonsceneupdate==true)&&(itponsceneupdate==true)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+		{
+					loaderremovedonscene=false;
+						console.log("VISTA ITP!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+ 					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas);					
+	   }
+	   //FOL REMOVED-LOADER IN - ITP IN -  NO UNLOAD - NO RACK 	
+	if ((folremovedonscene==true)&&(loaderonsceneupdate==true)&&(itponsceneupdate==true)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+		{   
+	                folremovedonscene=false;
+					console.log("VISTA ITP!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+ 					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+	                console.log("generalcamera!!!!!!!!");
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas);  
+	   	   }
+	   	   //FOL IN -LOADER IN - ITP REMOVED -  NO UNLOAD - NO RACK 	
+if ((folonsceneupdate==true)&&(loaderonsceneupdate==true)&&(itpremovedonscene==true)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+	   {
+	                itpremovedonscene=false;
+	   		        console.log("VISTA LOADER MAS FOL!!!!!!!!!!!!!!!");
+                    var arcCamera4 = new BABYLON.ArcRotateCamera("ArcRotateCamera4", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera4.lowerBetaLimit = 0.7;
+                    arcCamera4.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera4.lowerRadiusLimit = 19;
+					arcCamera4.upperRadiusLimit = 19;
+					arcCamera4.setPosition(new BABYLON.Vector3(-5, 55, -5));
+					arcCamera4.target = new BABYLON.Vector3(-2, -3, 5);
+                    //oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera4.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera4.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera4.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera4.animations.push(radiusAnimation);
+	                arcCamera4.animations.push(alphaAnimation);
+	                arcCamera4.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera4, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera4;
+					scene.activeCamera.attachControl(canvas);		
+	   }
+	   	   	   //FOL OUT -LOADER IN - ITP REMOVED -  NO UNLOAD - NO RACK 
+if ((folonsceneupdate==false)&&(loaderonsceneupdate==true)&&(itpremovedonscene==true)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+	   {
+                    itpremovedonscene=false;
+                    console.log("VISTALOADER!!!!!!!!");
+                    arcCamera6.lowerBetaLimit = 0.9;
+                    arcCamera6.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera6.lowerRadiusLimit = 14;
+					arcCamera6.upperRadiusLimit = 14;
+	                arcCamera6.setPosition(new BABYLON.Vector3(-5, 70, -5));
+					arcCamera6.target = new BABYLON.Vector3(1, -1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera6.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera6.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera6.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera6.animations.push(radiusAnimation);
+	                arcCamera6.animations.push(alphaAnimation);
+	                arcCamera6.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera6, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera6;
+					scene.activeCamera.attachControl(canvas);				
+	   } 
+	   	   	   	   //FOL IN -LOADER OUT - ITP REMOVED -  NO UNLOAD - NO RACK 
+if ((folonsceneupdate==true)&&(loaderonsceneupdate==false)&&(itpremovedonscene==true)&&(unloaderonsceneupdate==false)&&(rackonsceneupdate==false))
+	   {
+	                itpremovedonscene=false;
+                    console.log("VISTA FOL!!!!!!!!")
+				    var arcCamera3 = new BABYLON.ArcRotateCamera("ArcRotateCamera3", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera3.lowerBetaLimit = 0.5;
+                    arcCamera3.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera3.lowerRadiusLimit = 15;
+				    arcCamera3.upperRadiusLimit = 15;
+					arcCamera3.setPosition(new BABYLON.Vector3(-5, 60, -5));
+					arcCamera3.target = new BABYLON.Vector3(-10, 1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera3.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera3.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera3.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera3.animations.push(radiusAnimation);
+	                arcCamera3.animations.push(alphaAnimation);
+	                arcCamera3.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera3, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera3;
+					scene.activeCamera.attachControl(canvas);		
+	   }
+//RACK&UNLOADER 
+//DESTACKER REMOVED OR LOADER REMOVED -ITP NO 
+	   if (((rackonsceneupdate==true)||(unloaderonsceneupdate==true))&&(itponsceneupdate==false)&&(((loaderonsceneupdate==false)&&(folremovedonscene==true))||((loaderremovedonscene==true)&&(folonsceneupdate==false))||((loaderonsceneupdate==false)&&(folonsceneupdate==false))))
+	   {
+	   	                console.log("terminator!!!!!!!!");
+						if (itpremovedonscene==true)
+						{
+						itpremovedonscene=false;
+						}
+						if (folremovedonscene==true)
+						{
+						folremovedonscene=false;
+						}
+						if (loaderremovedonscene==true)
+						{
+						loaderremovedonscene=false;
+						}  
+					var arcCamera5 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(35,10,0), scene);
+                    arcCamera5.lowerBetaLimit = 0.8;
+                    arcCamera5.upperBetaLimit = (Math.PI / 2) * 0.99;
+				    arcCamera5.lowerRadiusLimit = 3;
+					arcCamera5.upperRadiusLimit = 3;
+					arcCamera5.setPosition(new BABYLON.Vector3(-20,30,-25));
+					arcCamera5.target = new BABYLON.Vector3(25,5,0);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera5.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera5.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera5.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera5.animations.push(radiusAnimation);
+	                arcCamera5.animations.push(alphaAnimation);
+	                arcCamera5.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera5, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera5;
+					scene.activeCamera.attachControl(canvas);
+	   }
+	   //RACK or UNLOADER DESTACKER IN + LOADER OUT + ITP NOT EXIST
+	   if ((((rackremovedonscene==true)&&(unloaderonsceneupdate==false))||((unloaderremovedonscene==true)&&(rackonsceneupdate==false)))&&(itponsceneupdate==false)&&((folonsceneupdate==true)&&(loaderonsceneupdate==false)))
+	   {   
+	                   if (rackremovedonscene==true)
+						{
+						rackremovedonscene=false;
+						}
+						if (unloaderremovedonscene==true)
+						{
+						unloaderremovedonscene=false;
+						}
+                    console.log("RETURN TO FOL CAMERA!!!!!!!!")
+				    var arcCamera3 = new BABYLON.ArcRotateCamera("ArcRotateCamera3", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera3.lowerBetaLimit = 0.5;
+                    arcCamera3.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera3.lowerRadiusLimit = 15;
+				    arcCamera3.upperRadiusLimit = 15;
+					arcCamera3.setPosition(new BABYLON.Vector3(-5, 60, -5));
+					arcCamera3.target = new BABYLON.Vector3(-10, 1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera3.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera3.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera3.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera3.animations.push(radiusAnimation);
+	                arcCamera3.animations.push(alphaAnimation);
+	                arcCamera3.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera3, 0, 400, false, 1);	
+					//
+					scene.activeCamera = arcCamera3;
+					scene.activeCamera.attachControl(canvas);		
+	   }
+	   //RACK or UNLOADER DESTACKER OUT + LOADER IN + ITP NOT EXIST
+	   if ((((rackremovedonscene==true)&&(unloaderonsceneupdate==false))||((unloaderremovedonscene==true)&&(rackonsceneupdate==false)))&&(itponsceneupdate==false)&&((folonsceneupdate==false)&&(loaderonsceneupdate==true)))
+	   {   
+	                   if (rackremovedonscene==true)
+						{
+						rackremovedonscene=false;
+						}
+						if (unloaderremovedonscene==true)
+						{
+						unloaderremovedonscene=false;
+						}
+                    console.log("RETURN TO LOADERcamera!!!!!!!!");
+					var arcCamera6 = new BABYLON.ArcRotateCamera("ArcRotateCamera6", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                    arcCamera6.lowerBetaLimit = 0.9;
+                    arcCamera6.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera6.lowerRadiusLimit = 14;
+					arcCamera6.upperRadiusLimit = 14;
+	                arcCamera6.setPosition(new BABYLON.Vector3(-5, 70, -5));
+					arcCamera6.target = new BABYLON.Vector3(1, -1, 5);
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera6.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera6.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera6.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera6.animations.push(radiusAnimation);
+	                arcCamera6.animations.push(alphaAnimation);
+	                arcCamera6.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera6, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera6;
+					scene.activeCamera.attachControl(canvas);	
+	   }
+//RACK or UNLOADER DESTACKER IN + LOADER IN + ITP NOT EXIST
+	   if ((((rackremovedonscene==true)&&(unloaderonsceneupdate==false))||((unloaderremovedonscene==true)&&(rackonsceneupdate==false)))&&(itponsceneupdate==false)&&((folonsceneupdate==true)&&(loaderonsceneupdate==true)))
+	   {   
+	                   if (rackremovedonscene==true)
+						{
+						rackremovedonscene=false;
+						}
+						if (unloaderremovedonscene==true)
+						{
+						unloaderremovedonscene=false;
+						}
+						 console.log("RETURN TO LOADER+FOLCAMERA!!!!!!!!");
+						  console.log(unloaderonsceneupdate);
+						  console.log(rackonsceneupdate);
+                    var arcCamera4 = new BABYLON.ArcRotateCamera("ArcRotateCamera4", 0, 0, 10, new BABYLON.Vector3.Zero(), scene);
+                     arcCamera4.lowerBetaLimit = 0.7;
+                    arcCamera4.upperBetaLimit = (Math.PI / 2) * 0.99;
+ 					arcCamera4.lowerRadiusLimit = 19;
+					arcCamera4.upperRadiusLimit = 19;
+					arcCamera4.setPosition(new BABYLON.Vector3(-5, 55, -5));
+					arcCamera4.target = new BABYLON.Vector3(-2, -3, 5);
+                    //oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera4.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera4.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera4.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera4.animations.push(radiusAnimation);
+	                arcCamera4.animations.push(alphaAnimation);
+	                arcCamera4.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera4, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera4;
+					scene.activeCamera.attachControl(canvas);	
+	   }	
+	   	   //REMOVE FOL KEEPING LOADER AND EOL OR RACK
+if ((folremovedonscene==true)&&(loaderonsceneupdate==true)&&(((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))||((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==true))))
+	   {
+	                folremovedonscene=false;
+											console.log("VISTA ITP para racking destacker!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+                    arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas); 		
+	   } 
+	   	   //REMOVE LOADER KEEPING FOL AND EOL OR RACK
+if ((loaderremovedonscene==true)&&(folonsceneupdate==true)&&(((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))||((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==true))))
+	   {
+	                loaderremovedonscene=false;
+					console.log("VISTA ITP para rackingloader!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+                    arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas); 		
+	   } 
+//ITP AND RACK	   	  	
+if ((folonsceneupdate==true)&&(loaderonsceneupdate==true)&&(itpremovedonscene==true)&&(((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))))
+	   {
+	                itpremovedonscene=false;
+	   		       console.log("VISTA ITP para rackingloader!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+                    arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas); 		
+	   }
+if ((folonsceneupdate==true)&&(loaderonsceneupdate==false)&&(itpremovedonscene==true)&&(((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))))
+	   {
+	                itpremovedonscene=false;
+	   		       console.log("VISTA ITP para rackingloader!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas); 		
+	   }
+if ((folonsceneupdate==false)&&(loaderonsceneupdate==true)&&(itpremovedonscene==true)&&(((unloaderonsceneupdate==false)&&(rackonsceneupdate==true))||((unloaderonsceneupdate==true)&&(rackonsceneupdate==false))))
+	   {
+	                itpremovedonscene=false;
+	   		       console.log("VISTA ITP para rackingloader!!!!!!!!!!!!!!!");
+					var arcCamera2 = new BABYLON.ArcRotateCamera("ArcRotateCamera", 1, 0.8, 10, new BABYLON.Vector3(10,0,0), scene);
+					arcCamera2.lowerRadiusLimit = 31;
+					arcCamera2.upperRadiusLimit = 31;
+					arcCamera2.setPosition(new BABYLON.Vector3(-5,40,-25));
+					arcCamera2.target = new BABYLON.Vector3(7,8,0);	
+					scene.activeCamera = arcCamera2;
+					arcCamera2.attachControl(canvas);	   
+					//oldcamera
+					var oldCamera=scene.activeCamera;
+					oldCamera.attachControl(canvas, true);
+					//define animation
+					var radiusAnimation = new BABYLON.Animation("camRadius", "radius", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var alphaAnimation = new BABYLON.Animation("camAlpha", "alpha", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	                var betaAnimation = new BABYLON.Animation("camBeta", "beta", 300, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+                    var keys1 = [{frame: 0,value: oldCamera.radius},{frame : 100,value : arcCamera2.radius}];
+	                var keys2 = [{frame: 0,value: oldCamera.alpha},{frame : 100,value : arcCamera2.alpha}];
+	                var keys3 = [{frame: 0,value: oldCamera.beta},{frame : 100,value : arcCamera2.beta}];
+                    radiusAnimation.setKeys(keys1);
+	                alphaAnimation.setKeys(keys2);
+	                betaAnimation.setKeys(keys3);
+                    arcCamera2.animations.push(radiusAnimation);
+	                arcCamera2.animations.push(alphaAnimation);
+	                arcCamera2.animations.push(betaAnimation);
+                    scene.beginAnimation(arcCamera2, 0, 400, false, 1);	
+					scene.activeCamera = arcCamera2;
+					scene.activeCamera.attachControl(canvas); 		
+	   }    
+	if(folremovedonscene==true)
+	{
+           folremovedonscene=false;
+	}else if (loaderremovedonscene==true)
+		{
+            loaderremovedonscene=false;
+	}else if (itpremovedonscene==true)
+			{
+             itpremovedonscene=false; 
+	}else if (unloaderremovedonscene==true)
+			{
+             unloaderremovedonscene=false; 
+	}else if (rackremovedonscene==true)
+			{
+             rackremovedonscene=false; 
+	}
+	});
+socket.on('geometryChangecardsofscene',function(data){
+		   console.log(data.nameitem + "CARDSSSSS");
+		   var y=data.nameitem;
+		   var element = scene.getMeshByID(y);
+		   if(element == null){
+		   }else{
+           element.dispose();
+		   document.getElementById(y).className = "boxes2";
+		   pricetotal=pricetotal-data.priceitem;
+	  	   stringprice=pricetotal.toString();
+		   $('#projectpanelprice').html(stringprice+""+"€");	
+           $('#projectpanelcycletime').html("sec.");
+		   }
+});	
+socket.on('ansloaddatabase',function(data){
+var loadprojects = $.parseJSON(data);
+	   $('#idProjectnameload').empty();
+	   for (i = 0; i < loadprojects.length; i++) {
+	   if(loadprojects[i]=="BLANKLAYOUT125")
+	   {
+	   i++;
+	   }
+	   var option=$('<option/>').text(loadprojects[i]);
+	   $('#idProjectnameload').append(option);
+       $("#ajax_loader").hide();
+	   $('#myPleaseWait').modal('hide');
+	   } 	   
+	});
+	});
+</script>
+</body>
+</html>
